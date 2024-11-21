@@ -1,6 +1,6 @@
 .card-wrapper {
     background: linear-gradient(
-        135deg,
+        45deg,
         rgba(234, 234, 234, 0.2) 25%,
         rgba(255, 255, 255, 0.2) 25%,
         rgba(255, 255, 255, 0.2) 50%,
@@ -10,7 +10,7 @@
         rgba(255, 255, 255, 0.2)
     ),
     white;
-    background-size: 75px 75px; /* Adjust pattern size */    
+    background-size: 100px 100px; /* Adjust pattern size */    
     &:hover {
         background-color: var(--card-background);
         --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
