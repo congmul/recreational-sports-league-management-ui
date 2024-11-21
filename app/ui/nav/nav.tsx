@@ -109,7 +109,7 @@ export default function Nav() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="/">
+                <Link href="/">
                   <span className="sr-only">Premier league</span>
                   <Image
                     src="/assets/img/logo-premier.png"
@@ -117,7 +117,7 @@ export default function Nav() {
                     height={50}
                     alt="Logo of Permier league"
                     />
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
