@@ -38,11 +38,11 @@ const Card: React.FC<CardProps> = ({ logo, name, tla = 'ARS', color }) => {
   return (
     <div
       className={`card-wrapper relative w-64 h-40 flex flex-col justify-between p-4 border rounded-lg shadow-md transition-shadow duration-300 cursor-pointer
-        hover:text-white
+        m-3 hover:text-white
         `}
       style={{ '--card-background': teamColorMap[tla] || '#f9f9f9', '--card-after-bg-bttom': `linear-gradient(284.38deg, ${darkenColor(teamColorMap[tla], 30)}, ${teamColorMap[tla]})` } as React.CSSProperties}
     >
-      <img src={logo} alt={`${name} logo`} className="w-20 h-20 object-contain" />
+      <img src={logo} alt={`${name} logo`} className="w-16 h-16 object-contain" />
       <div className="w-100 flex items-end justify-between mt-2">
         <div className="text-lg font-bold mt-2">{name}</div>
         <ArrowLongRightIcon width={'24'} />
