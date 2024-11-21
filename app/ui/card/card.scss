@@ -1,0 +1,20 @@
+.card-wrapper {
+    &:hover {
+        background-color: var(--card-background);
+        --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+    &::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: .4rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background: var(--card-after-bg-bttom, linear-gradient(284.38deg, #be000a, #ff0203));
+        z-index: 10;
+        border-radius: 0 0 .8rem .8rem;
+    }
+}
