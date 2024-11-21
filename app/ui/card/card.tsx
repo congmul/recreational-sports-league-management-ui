@@ -6,11 +6,10 @@ interface CardProps {
   logo: string; // URL of the team's logo
   name: string; // Team's name
   tla: string;
-  color?: string; // Optional background color or accent
 }
 
-const Card: React.FC<CardProps> = ({ logo, name, tla = 'ARS', color }) => {
-  const teamColorMap:any = {
+const Card: React.FC<CardProps> = ({ logo, name, tla = 'ARS' }) => {
+  const teamColorMap:Record<string, string> = {
     ARS: "#EF0107",
     AVL: "#95bfe5",
     CHE: "#034694",

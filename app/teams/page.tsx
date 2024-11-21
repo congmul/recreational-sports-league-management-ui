@@ -1,6 +1,5 @@
 import Card from '@/app/ui/card/card';
 import { teamService } from '../lib/api-services';
-import Loading from "./loading";
 
 export default async function Page() {
   const teams = await teamService.getAllTeams();

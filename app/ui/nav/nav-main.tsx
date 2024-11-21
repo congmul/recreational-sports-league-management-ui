@@ -1,15 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Bars3Icon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import NavLink from './navLink';
 import NavMobile from './navMobile';
   
 export default function NavMain() {
     return(<>
     <div className="bg-white">
-      <header className="relative bg-white">
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="border-b border-gray-200">
+      <header className="relative bg-white border-b border-gray-200">
+        <nav aria-label="Top" className="px-4 sm:px-6 lg:px-8">
+          <div>
             <div className="flex h-16 items-center">
                 {/* hamburger menu icon and slide menu */}
                 <NavMobile />
