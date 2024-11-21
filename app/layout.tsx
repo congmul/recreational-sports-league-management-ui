@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/app/ui/nav/nav";
+import NavMain from "@/app/ui/nav/nav-main";
 
 export const metadata: Metadata = {
   title: "League Management",
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
+        <NavMain />
         {children}
       </body>
     </html>

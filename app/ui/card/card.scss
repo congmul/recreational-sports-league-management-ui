@@ -1,0 +1,32 @@
+.card-wrapper {
+    background: linear-gradient(
+        135deg,
+        rgba(234, 234, 234, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(234, 234, 234, 0.2) 50%,
+        rgba(234, 234, 234, 0.2) 75%,
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0.2)
+    ),
+    white;
+    background-size: 150px 150px; /* Adjust pattern size */    
+    &:hover {
+        background-color: var(--card-background);
+        --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+    &::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: .4rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background: var(--card-after-bg-bttom, linear-gradient(284.38deg, rgb(122, 123, 124), rgb(229 231 235)));
+        z-index: 10;
+        border-radius: 0 0 .8rem .8rem;
+    }
+}
