@@ -37,7 +37,7 @@ export default function NavLink() {
                       data-open="true"
                       className={clsx("relative z-10 -mb-px flex items-center border-b-2 border-transparent pt-px text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 hover:border-violet-900 hover:text-violet-900",
                           {
-                              "border-violet-900 text-violet-900": pathname === navMenu.id
+                              "border-violet-900 text-violet-900": navMenu.id === '/' ? pathname === navMenu.id : pathname.includes(navMenu.id)
                           }                                
                       )}
                   >
