@@ -1,6 +1,7 @@
 import React from "react";
 import { Player } from "@/app/lib/models";
 import { capitalizeFirstLetter } from "@/app/lib/utils";
+import Image from "next/image";
 
 interface TableProps {
   players: Player[];
@@ -21,10 +22,12 @@ const PlayerTable: React.FC<TableProps> = ({ players }) => {
           {players.map((player) => (
             <tr key={player._id} className="group hover:bg-gray-50 border-b cursor-pointer">
               <td className="px-6 py-4 flex items-center gap-4">                
-                <img
+                <Image
                   src={'/assets/img/Photo-Missing.png'}
                   alt={player.firstName}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="rounded-full object-cover"
+                  width={40}
+                  height={40}
                 />
                 <span className="text-gray-900 group-hover:underline">{`${player.firstName} ${player.lastName}`}</span>
               </td>
