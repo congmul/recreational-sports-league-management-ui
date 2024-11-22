@@ -22,7 +22,7 @@ const Table: React.FC<TableProps> = ({ coaches }) => {
             <tr key={coach._id} className="group hover:bg-gray-50 border-b cursor-pointer">
               <td className="px-6 py-4 flex items-center gap-4">                
                 <Image
-                  src={'/assets/img/Photo-Missing.png'}
+                  src={coach.profileUrl || '/assets/img/Photo-Missing.png'}
                   alt={coach.firstName}
                   className="rounded-full object-cover"
                   width={40}
