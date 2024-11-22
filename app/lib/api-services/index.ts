@@ -1,2 +1,5 @@
 import { teamService } from './team.service';
-export { teamService };
+import { playerService } from './player.service';
+import { coachService } from './coach.service';
+
+export { teamService, playerService, coachService };
