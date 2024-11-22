@@ -34,7 +34,7 @@ const Table: React.FC<TableProps> = ({ coaches }) => {
                   alt={coach.firstName}
                   className="w-10 h-10 rounded-full object-cover"
                 />
-                <span className="text-gray-900 group-hover:underline">{coach.teamName}</span>
+                <span className="text-gray-900">{coach.teamName}</span>
               </td>
             </tr>
           ))}
