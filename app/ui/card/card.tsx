@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline'
 import './card.scss';
+import { darkenColor } from '@/app/lib/utils';
 
 interface CardProps {
   logo: string; // URL of the team's logo
@@ -22,18 +23,7 @@ const Card: React.FC<CardProps> = ({ logo, name, tla = 'ARS' }) => {
     TOT: "#132257",
     WOL: "#FDB913",
   }
-  function darkenColor(hex: string, percent: number): string {
-    const num = parseInt(hex.slice(1), 16);
-    let r = (num >> 16) - Math.round((num >> 16) * percent / 100);
-    let g = ((num >> 8) & 0x00FF) - Math.round(((num >> 8) & 0x00FF) * percent / 100);
-    let b = (num & 0x0000FF) - Math.round((num & 0x0000FF) * percent / 100);
   
-    r = Math.max(0, r);
-    g = Math.max(0, g);
-    b = Math.max(0, b);
-  
-    return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
-  }
   return (
     <div
       className={`card-wrapper relative w-64 h-40 flex flex-col justify-between p-4 border rounded-lg shadow-md transition-shadow duration-300 cursor-pointer
