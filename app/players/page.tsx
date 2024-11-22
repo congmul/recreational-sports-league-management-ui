@@ -1,17 +1,17 @@
 import Banner from '@/app/ui/banner/banner';
-import Table from '@/app/ui/table/table';
+import PlayerTable from '@/app/ui/table/playerTable';
 import { playerService } from '../lib/api-services';
-
 export default async function Page() {
   const players = await playerService.getAllPlayers();
 
-    return (
+    return (<>
       <div className="team-page-wrapper">
         <Banner title={'Players'} />
         <div className="mt-4">
-        {players && <Table players={players}/>}
+        {players && <PlayerTable players={players}/>}
         </div>
       </div>
+    </>
     );
   }
   

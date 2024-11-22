@@ -6,7 +6,7 @@ interface TableProps {
   players: Player[];
 }
 
-const Table: React.FC<TableProps> = ({ players }) => {
+const PlayerTable: React.FC<TableProps> = ({ players }) => {
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
       <table className="min-w-full border-collapse border border-gray-200">
@@ -38,4 +38,4 @@ const Table: React.FC<TableProps> = ({ players }) => {
   );
 };
 
-export default Table;
+export default PlayerTable;
