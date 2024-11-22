@@ -1,4 +1,3 @@
-import { teamCityMap } from '@/app/lib/const-data';
 import { darkenColor } from '@/app/lib/utils';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -7,12 +6,14 @@ interface BannerProps {
     title: string;
     color?: string;
     isTeamDetail?: boolean
+    logoUrl?: string
     tla?: string
     est?: string
     stadium?: string
+    baseCity?: string
   }
 
-export default function Banner({title, color = '#312e81', isTeamDetail, tla, est, stadium}: BannerProps) {
+export default function Banner({title, color = '#312e81', isTeamDetail, tla, est, stadium, baseCity, logoUrl}: BannerProps) {
     return(<>
         <div className={clsx("lg:h-40 h-24", {"lg:h-96 h-52" : isTeamDetail})} 
             style={{
@@ -22,13 +23,13 @@ export default function Banner({title, color = '#312e81', isTeamDetail, tla, est
                 {
                     isTeamDetail
                     ? <>
-                        <Image className="w-[96px] lg:w-[128px]" src={`/assets/img/team-logo/${tla}.png`} alt={tla || ''} width={128} height={128} />
+                        {logoUrl && <Image className="w-[96px] lg:w-[128px]" src={logoUrl} alt={tla || ''} width={128} height={128} />}
                         <div className="ml-3 p-2">
                             <div className="lg:text-[64px] font-black">{title}</div>                            
                             <div className="flex items-center text-base">
                                 <div>Est: {est?.split('-')[0]}</div>
                                 <div className="mx-4 h-1 w-1 rounded-full bg-white"></div>
-                                <div>{stadium}, {tla && teamCityMap[tla]}</div>
+                                <div>{stadium}, {baseCity}</div>
                             </div>
                         </div>
                     </>

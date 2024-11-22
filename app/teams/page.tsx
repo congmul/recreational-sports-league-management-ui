@@ -13,7 +13,7 @@ export default async function Page() {
           teams && teams.map(team => {
             return(
               <Link key={team._id} href={`teams/${team._id}`}>
-                <Card logo={team.crest} tla={team.tla} name={team.name} />
+                <Card logoUrl={team.crest} tla={team.tla} name={team.name} color={team.teamColor} />
               </Link>
             )
           })

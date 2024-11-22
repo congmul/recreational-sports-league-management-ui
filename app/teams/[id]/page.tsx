@@ -1,6 +1,5 @@
 import { teamService } from "@/app/lib/api-services"
 import Banner from "@/app/ui/banner/banner"
-import { teamColorMap } from '@/app/lib/const-data';
 
 interface TeamDetailProps {
     params: { id: string }
@@ -13,7 +12,7 @@ export default async function Page({ params }: TeamDetailProps) {
     const team = await teamService.getTeam(id)
     console.log(team)
     return(<>
-        {team && <Banner isTeamDetail={true} title={team.name} color={teamColorMap[team.tla]} tla={team.tla} est={team.establish} stadium={team.homeStadium} />}
+        {team && <Banner isTeamDetail={true} title={team.name} color={team.teamColor} tla={team.tla} est={team.establish} stadium={team.homeStadium} baseCity={team.baseCity} logoUrl={team.crest} />}
         Team Detail
         Post: {id}
     </>)
