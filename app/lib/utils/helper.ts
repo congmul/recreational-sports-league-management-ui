@@ -10,3 +10,8 @@ export function darkenColor(hex: string, percent: number): string {
   
     return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
 }
+
+export function capitalizeFirstLetter(text: string): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}

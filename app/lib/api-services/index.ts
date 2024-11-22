@@ -1,2 +1,4 @@
 import { teamService } from './team.service';
-export { teamService };
+import { playerService } from './player.service';
+
+export { teamService, playerService };

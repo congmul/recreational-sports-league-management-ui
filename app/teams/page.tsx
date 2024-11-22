@@ -1,6 +1,6 @@
 import Card from '@/app/ui/card/card';
 import { teamService } from '../lib/api-services';
-import Banner from '../ui/banner/banner';
+import Banner from '@/app/ui/banner/banner';
 
 export default async function Page() {
   const teams = await teamService.getAllTeams();

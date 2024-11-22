@@ -1,2 +1,2 @@
-import { darkenColor } from './helper';
-export { darkenColor }; 
+import { darkenColor, capitalizeFirstLetter } from './helper';
+export { darkenColor, capitalizeFirstLetter }; 

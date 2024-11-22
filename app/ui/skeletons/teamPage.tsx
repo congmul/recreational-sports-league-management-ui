@@ -1,3 +1,4 @@
+import { BannerSkeleton } from "./banner";
 import { CardSkeleton } from "./card";
 // Loading animation
 const shimmer =
@@ -7,26 +8,20 @@ export function TeamPageSkeleton() {
     return (
       <>
         <div className={`team-page-wrapper`}>
-          <div className={`h-32`}>
-            <div className={`${shimmer} h-full flex items-center text-white bg-gray-200`}>
-                <div className="ml-3 p-2">
-                  <div className="ml-2 h-12 w-36 rounded-md bg-gray-300 text-sm font-medium" />
-                </div>
-            </div>
+          <BannerSkeleton />
+          <div className="flex flex-wrap justify-center">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
           </div>
-            <div className="flex flex-wrap justify-center">
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-                <CardSkeleton />
-            </div>
         </div>
       </>
     );
