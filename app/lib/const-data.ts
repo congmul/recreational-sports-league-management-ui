@@ -1,0 +1,26 @@
+export const teamColorMap:Record<string, string> = {
+    ARS: "#EF0107",
+    AVL: "#95bfe5",
+    CHE: "#034694",
+    EVE: "#003399",
+    FUL: "#000000",
+    LIV: "#c8102E",
+    MCI: "#6CABDD",
+    MUN: "#DA291C",
+    NEW: "#241F20",
+    TOT: "#132257",
+    WOL: "#FDB913",
+}
+export const teamCityMap:Record<string, string> = {
+    ARS: "London",
+    AVL: "Birmingham",
+    CHE: "London",
+    EVE: "Liverpool",
+    FUL: "London",
+    LIV: "Liverpool",
+    MCI: "Manchester",
+    MUN: "Manchester",
+    NEW: "Newcastle",
+    TOT: "London",
+    WOL: "Wolverhampton",
+}

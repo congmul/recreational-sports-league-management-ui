@@ -23,3 +23,16 @@ export function TeamPageSkeleton() {
       </>
     );
   }
+
+
+export function TeamDetailPageSkeleton() {
+  return (
+    <>
+      <div className={`team-page-wrapper`}>
+        <BannerSkeleton isTeamDetail={true} />
+        <div className="flex flex-wrap justify-center">
+        </div>
+      </div>
+    </>
+  );
+}

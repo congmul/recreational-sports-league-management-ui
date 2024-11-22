@@ -1,5 +1,8 @@
-import { TeamPageSkeleton } from './teamPage';
+import { TeamPageSkeleton, TeamDetailPageSkeleton } from './teamPage';
 import { PlayerPageSkeleton } from './playerPage';
 import { CoachPageSkeleton } from './coachPage';
 
-export { TeamPageSkeleton, PlayerPageSkeleton, CoachPageSkeleton }
+export { 
+    TeamPageSkeleton, TeamDetailPageSkeleton, 
+    PlayerPageSkeleton, CoachPageSkeleton 
+}
