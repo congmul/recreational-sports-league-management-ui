@@ -1,12 +1,10 @@
 import React from "react";
-import { Coach } from "@/app/lib/models";
 import Image from "next/image";
+import { coachService } from "@/app/lib/api-services";
 
-interface TableProps {
-  coaches: Coach[];
-}
+async function Table(){
+  const coaches = await coachService.getAllCoaches();
 
-const Table: React.FC<TableProps> = ({ coaches }) => {
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
       <table className="min-w-full border-collapse border border-gray-200">
@@ -18,7 +16,7 @@ const Table: React.FC<TableProps> = ({ coaches }) => {
           </tr>
         </thead>
         <tbody>        
-          {coaches.map((coach) => (
+          {coaches && coaches.map((coach) => (
             <tr key={coach._id} className="group hover:bg-gray-50 border-b cursor-pointer">
               <td className="px-6 py-4 flex items-center gap-4">                
                 <Image

@@ -4,20 +4,10 @@ import { CardSkeleton } from "./card";
 export function TeamPageSkeleton() {
     return (
       <>
-        <div className={`team-page-wrapper`}>
-          <BannerSkeleton />
+        <div className={`team-page-wrapper relative`}>
+            <BannerSkeleton />
           <div className="flex flex-wrap justify-center">
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
+            <TeamCardsSkeleton />
           </div>
         </div>
       </>
@@ -28,11 +18,30 @@ export function TeamPageSkeleton() {
 export function TeamDetailPageSkeleton() {
   return (
     <>
-      <div className={`team-page-wrapper`}>
+      <div className={`team-page-wrapper relative`}>
         <BannerSkeleton isTeamDetail={true} />
         <div className="flex flex-wrap justify-center">
         </div>
       </div>
+    </>
+  );
+}
+
+
+export function TeamCardsSkeleton() {
+  return (
+    <>
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
     </>
   );
 }

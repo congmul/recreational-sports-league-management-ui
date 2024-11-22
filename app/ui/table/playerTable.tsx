@@ -1,13 +1,11 @@
 import React from "react";
-import { Player } from "@/app/lib/models";
 import { capitalizeFirstLetter } from "@/app/lib/utils";
 import Image from "next/image";
+import { playerService } from "@/app/lib/api-services";
 
-interface TableProps {
-  players: Player[];
-}
+async function PlayerTable() {
+  const players = await playerService.getAllPlayers();
 
-const PlayerTable: React.FC<TableProps> = ({ players }) => {
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
       <table className="min-w-full border-collapse border border-gray-200">
@@ -19,7 +17,7 @@ const PlayerTable: React.FC<TableProps> = ({ players }) => {
           </tr>
         </thead>
         <tbody>        
-          {players.map((player) => (
+          {players && players.map((player) => (
             <tr key={player._id} className="group hover:bg-gray-50 border-b cursor-pointer">
               <td className="px-6 py-4 flex items-center gap-4">                
                 <Image
