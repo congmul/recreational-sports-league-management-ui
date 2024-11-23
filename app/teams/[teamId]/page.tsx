@@ -11,9 +11,10 @@ import clsx from "clsx"
 import PlayerCard from '@/app/ui/team/playerCard';
 import CoachCard from '@/app/ui/team/coachCard';
 import { Player } from "@/app/lib/models";
+import Link from "next/link";
 
 interface TeamDetailProps {
-    params: Promise<{ id: string }>
+    params: Promise<{ teamId: string }>
 }
 
 function sortingPlayers(players:Player[] | undefined){
@@ -44,12 +45,12 @@ function sortingPlayers(players:Player[] | undefined){
 export default async function Page({ params }: TeamDetailProps) {
     // It follows https://nextjs.org/docs/messages/sync-dynamic-apis
     // Should use "await".
-    const { id } = await params
-    const team = await teamService.getTeam(id);
-    const organizedPlayers = sortingPlayers(team?.players);
+    const { teamId } = await params
+    const team = await teamService.getTeam(teamId); 
+    const organizedPlayers = sortingPlayers(team?.players);    
     return(<>
-        {team && (<>
-            <Banner isTeamDetail={true} title={team.name} color={team.teamColor} tla={team.tla} est={team.establish} stadium={team.homeStadium} baseCity={team.baseCity} logoUrl={team.crest} />
+    {
+        team && <>
             <TabGroup className="pl-3" style={{marginTop:"-40px"}}>
                 <TabList className="flex gap-4">
                     <Tab
@@ -79,7 +80,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['goalkeepers'].map(player => {
-                                return (<div key={player._id} className="p-3">                                
+                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                               
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -92,7 +93,7 @@ export default async function Page({ params }: TeamDetailProps) {
                                         profileUrl={player.profileUrl}
                                         teamColor={team.teamColor}
                                     />
-                                </div>
+                                </Link>
                             )})
                         }
                         </div>
@@ -100,7 +101,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['defenders'].map(player => {
-                                return (<div key={player._id} className="p-3">                                
+                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                                
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -113,7 +114,7 @@ export default async function Page({ params }: TeamDetailProps) {
                                         profileUrl={player.profileUrl}
                                         teamColor={team.teamColor}
                                     />
-                                </div>
+                                </Link>
                             )})
                         }
                         </div>
@@ -121,7 +122,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['midfielders'].map(player => {
-                                return (<div key={player._id} className="p-3">                                
+                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                              
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -134,7 +135,7 @@ export default async function Page({ params }: TeamDetailProps) {
                                         profileUrl={player.profileUrl}
                                         teamColor={team.teamColor}
                                     />
-                                </div>
+                                </Link>
                             )})
                         }
                         </div>
@@ -142,7 +143,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['forwards'].map(player => {
-                                return (<div key={player._id} className="p-3">                                
+                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                                  
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -155,26 +156,28 @@ export default async function Page({ params }: TeamDetailProps) {
                                         profileUrl={player.profileUrl}
                                         teamColor={team.teamColor}
                                     />
-                                </div>
+                                </Link>
                             )})
                         }
                         </div>
                     </TabPanel>
 
                     <TabPanel key={"coach"} className="rounded-xl bg-white/5 p-3">
-                        <CoachCard 
-                            firstName={team.coach.firstName}
-                            lastName={team.coach.lastName}
-                            joinedTeam={team.coach.joinedTeam?.split("T")[0]}
-                            dateOfBirth={team.coach.dateOfBirth?.split("T")[0]}
-                            nationality={team.coach.nationality}
-                            profileUrl={team.coach.profileUrl}
-                            teamColor={team.teamColor}
-                        />
+                        <Link href={`/teams/${teamId}/${team.coach._id}?query=coach`} className="p-3">
+                            <CoachCard 
+                                firstName={team.coach.firstName}
+                                lastName={team.coach.lastName}
+                                joinedTeam={team.coach.joinedTeam?.split("T")[0]}
+                                dateOfBirth={team.coach.dateOfBirth?.split("T")[0]}
+                                nationality={team.coach.nationality}
+                                profileUrl={team.coach.profileUrl}
+                                teamColor={team.teamColor}
+                            />
+                        </Link>
                     </TabPanel>
                 </TabPanels>
             </TabGroup>
         </>
-        )}
+    }
     </>)
 }
