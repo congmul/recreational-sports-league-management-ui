@@ -1,3 +1,5 @@
+import { Team } from "./team"
+
 export type Player = {
     _id: string
     firstName: string
@@ -6,7 +8,7 @@ export type Player = {
     shirtNumber: number
     nationality: string
     dateOfBirth: string
-    team: string
+    team: Team
     joinedTeam: string
     section: string
     position: string

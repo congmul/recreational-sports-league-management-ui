@@ -10,5 +10,13 @@ export const coachService = {
         }catch(err){
             console.log(err);
         }
+    },
+    getCoach: async (id: string):Promise<Coach | undefined> => {
+        try{
+            const { data } = await axios.get(`${coreServiceUrl}/coach/${id}`);
+            return data;            
+        }catch(err){
+            console.log(err);
+        }
     }
 }

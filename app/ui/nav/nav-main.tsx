@@ -22,6 +22,7 @@ export default function NavMain() {
                         src="/assets/img/logo-premier.png"
                         width={50}
                         height={50}
+                        priority={true}
                         alt="Logo of Permier league"
                         />
                     </Link>
