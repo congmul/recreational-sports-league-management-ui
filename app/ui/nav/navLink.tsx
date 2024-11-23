@@ -29,7 +29,7 @@ export default function NavLink() {
     return(<>
         {/* Flyout menus */}
         <div className="hidden lg:ml-8 lg:block lg:self-stretch h-full">
-          <div className="flex h-full space-x-8">                    
+          <div className="flex h-full space-x-8">
             {
               navigation.map((navMenu) => (
                   <Link key={navMenu.name}
