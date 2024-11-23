@@ -16,7 +16,6 @@ async function PlayerDetail({id}: PlayerDetailProps) {
           lastName={player.lastName}
           shirtNumber={player.shirtNumber}
           color={player.team.teamColor}
-          logoUrl={player.team.crest}
           profileUrl={player?.profileUrl}
         />
         <div className="bg-white rounded-md p-5">

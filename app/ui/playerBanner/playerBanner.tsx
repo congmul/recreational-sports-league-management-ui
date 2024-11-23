@@ -7,11 +7,10 @@ interface PlayerBannerProps {
     lastName: string,
     shirtNumber: number,
     color: string,
-    logoUrl: string,
     profileUrl: string | undefined
 }
 
-export default function PlayerBanner({firstName, lastName, shirtNumber, color, logoUrl, profileUrl}: PlayerBannerProps) {
+export default function PlayerBanner({firstName, lastName, shirtNumber, color, profileUrl}: PlayerBannerProps) {
     return(<>
         <div className={clsx("h-[230px]")} 
             style={{
