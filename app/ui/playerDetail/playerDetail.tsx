@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { playerService } from '@/app/lib/api-services';
 
 function PlayerDetail() {    

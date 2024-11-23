@@ -1,12 +1,11 @@
 import PlayerDetail from "@/app/ui/playerDetail/playerDetail"
 
 interface DetailProps {
-    params: Promise<{ id: string }>
-    searchParams: any
+    searchParams: Promise<{query: string}>
 }
 
 
-export default async function Page({ params, searchParams }: DetailProps) {
+export default async function Page({ searchParams }: DetailProps) {
     // It follows https://nextjs.org/docs/messages/sync-dynamic-apis
     // Should use "await".
     const { query } = await searchParams
@@ -15,6 +14,7 @@ export default async function Page({ params, searchParams }: DetailProps) {
             <PlayerDetail />
         </>)
     }else{
+        // TODO: Add Coach Detail
         return(<>Coach</>)
     }
 }

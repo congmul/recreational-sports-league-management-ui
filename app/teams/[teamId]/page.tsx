@@ -1,5 +1,4 @@
 import { teamService } from "@/app/lib/api-services"
-import Banner from "@/app/ui/banner/banner"
 import {
     Tab,
     TabGroup,

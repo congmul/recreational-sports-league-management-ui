@@ -1,5 +1,4 @@
 import { teamService } from "@/app/lib/api-services";
-import { Team } from "@/app/lib/models";
 import Banner from "@/app/ui/banner/banner"
 import React from "react";
 
