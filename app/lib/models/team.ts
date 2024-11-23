@@ -1,3 +1,6 @@
+import { Coach } from "./coach";
+import { Player } from "./player";
+
 export type Team = {
     _id: string,
     name: string,
@@ -7,9 +10,9 @@ export type Team = {
     baseCity: string,
     establish: string,
     homeStadium: string,
-    players: string[],
+    players: Player[],
     maxNumber: number,
     createdAt: string,
     updatedAt: string,
-    coach: string,
+    coach: Coach,
 }

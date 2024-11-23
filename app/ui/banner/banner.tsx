@@ -15,7 +15,7 @@ interface BannerProps {
 
 export default function Banner({title, color = '#312e81', isTeamDetail, tla, est, stadium, baseCity, logoUrl}: BannerProps) {
     return(<>
-        <div className={clsx("lg:h-40 h-24", {"lg:h-96 h-52" : isTeamDetail})} 
+        <div className={clsx("lg:h-40 h-24", {"lg:h-[330px] h-[230px]" : isTeamDetail})} 
             style={{
                 background: `linear-gradient(284.38deg, ${darkenColor(color, 20)}, ${color})`
            }}>
