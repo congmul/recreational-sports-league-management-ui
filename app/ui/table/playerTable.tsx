@@ -2,6 +2,7 @@ import React from "react";
 import { capitalizeFirstLetter } from "@/app/lib/utils";
 import Image from "next/image";
 import { playerService } from "@/app/lib/api-services";
+import Link from "next/link";
 
 async function PlayerTable() {
   const players = await playerService.getAllPlayers();
@@ -18,16 +19,18 @@ async function PlayerTable() {
         </thead>
         <tbody>        
           {players && players.map((player) => (
-            <tr key={player._id} className="group hover:bg-gray-50 border-b cursor-pointer">
-              <td className="px-6 py-4 flex items-center gap-4">                
-                <Image
-                  src={player.profileUrl || '/assets/img/Photo-Missing.png'}
-                  alt={player.firstName}
-                  className="rounded-full object-cover"
-                  width={40}
-                  height={40}
-                />
-                <span className="text-gray-900 group-hover:underline">{`${player.firstName} ${player.lastName}`}</span>
+            <tr key={player._id} className=" hover:bg-gray-50 border-b">
+              <td className="px-6 py-4 flex items-center gap-4">     
+                <Link className="group flex items-center gap-4" href={`/players/${player._id}`}>
+                  <Image
+                    src={player.profileUrl || '/assets/img/Photo-Missing.png'}
+                    alt={player.firstName}
+                    className="rounded-full object-cover cursor-pointer"
+                    width={40}
+                    height={40}
+                  />
+                  <span className="text-gray-900 group-hover:underline cursor-pointer">{`${player.firstName} ${player.lastName}`}</span>
+                </Link>           
               </td>
               <td className="px-6 py-4 text-gray-700">{capitalizeFirstLetter(player.position)}</td>
               <td className="px-6 py-4 text-gray-700">{player.nationality}</td>
