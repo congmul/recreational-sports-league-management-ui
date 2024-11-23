@@ -55,13 +55,14 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
             </div>
 
             {/* Image Section */}
-            <div className="relative w-40 h-48 flex-shrink-0 bg-cover bg-center" style={{ backgroundColor: teamColor }}>
-            <Image
-                src={profileUrl || '/assets/img/Photo-Missing-Profile.png'}
-                alt={`${firstName} ${lastName}`}
-                layout="fill"
-                className="rounded-t-lg"
-            />
+            <div className="relative w-40 h-52 flex-shrink-0 bg-cover bg-center" style={{ backgroundColor: teamColor }}>
+                <Image
+                    src={profileUrl || '/assets/img/Photo-Missing-Profile.png'}
+                    alt={`${firstName} ${lastName}`}            
+                    width={147}
+                    height={160}
+                    className="rounded-t-lg w-full h-auto"
+                />
             </div>
         </div>
 
