@@ -11,6 +11,7 @@ import PlayerCard from '@/app/ui/team/playerCard';
 import CoachCard from '@/app/ui/team/coachCard';
 import { Player } from "@/app/lib/models";
 import Link from "next/link";
+import Banner from "@/app/ui/banner/banner";
 
 interface TeamDetailProps {
     params: Promise<{ teamId: string }>
@@ -50,6 +51,7 @@ export default async function Page({ params }: TeamDetailProps) {
     return(<>
     {
         team && <>
+            <Banner isTeamDetail={true} title={team.name} color={team.teamColor} tla={team.tla} est={team.establish} stadium={team.homeStadium} baseCity={team.baseCity} logoUrl={team.crest} />
             <TabGroup className="pl-3" style={{marginTop:"-40px"}}>
                 <TabList className="flex gap-4">
                     <Tab
@@ -79,7 +81,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['goalkeepers'].map(player => {
-                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                               
+                                return (<Link href={`/players/${player._id}`} key={player._id} className="p-3">                               
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -100,7 +102,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['defenders'].map(player => {
-                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                                
+                                return (<Link href={`/players/${player._id}`} key={player._id} className="p-3">                                
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -121,7 +123,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['midfielders'].map(player => {
-                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                              
+                                return (<Link href={`/players/${player._id}`} key={player._id} className="p-3">                              
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -142,7 +144,7 @@ export default async function Page({ params }: TeamDetailProps) {
                         <div className="flex flex-wrap">
                         {
                             organizedPlayers['forwards'].map(player => {
-                                return (<Link href={`/teams/${teamId}/${player._id}?query=player`} key={player._id} className="p-3">                                  
+                                return (<Link href={`/players/${player._id}`} key={player._id} className="p-3">                                  
                                     <PlayerCard 
                                         firstName={player.firstName}
                                         lastName={player.lastName}
@@ -162,7 +164,7 @@ export default async function Page({ params }: TeamDetailProps) {
                     </TabPanel>
 
                     <TabPanel key={"coach"} className="rounded-xl bg-white/5 p-3">
-                        <Link href={`/teams/${teamId}/${team.coach._id}?query=coach`} className="p-3">
+                        <Link href={`/coaches/${team.coach._id}`} className="p-3">
                             <CoachCard 
                                 firstName={team.coach.firstName}
                                 lastName={team.coach.lastName}
