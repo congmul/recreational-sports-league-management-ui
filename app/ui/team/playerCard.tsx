@@ -28,7 +28,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
     teamColor,
 }) => {
   return (
-    <div className="w-[320px] bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="w-[320px] bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 hover:cursor-pointer">
         <div className="flex">
             {/* Stats Section */}
             <div
