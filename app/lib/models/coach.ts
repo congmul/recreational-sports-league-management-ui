@@ -1,3 +1,5 @@
+import { Team } from "./team";
+
 export type Coach = {
     _id: string,
     firstName: string,
@@ -5,7 +7,7 @@ export type Coach = {
     profileUrl: string,
     nationality: string,
     dateOfBirth: string,
-    team: string,
+    team: Team,
     teamName: string,
     crest: string,
     joinedTeam: string,

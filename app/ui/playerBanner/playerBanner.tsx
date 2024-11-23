@@ -5,12 +5,13 @@ import Image from 'next/image';
 interface PlayerBannerProps {
     firstName: string,
     lastName: string,
-    shirtNumber: number,
+    shirtNumber?: number,
     color: string,
     profileUrl: string | undefined
+    isCoach?: boolean
 }
 
-export default function PlayerBanner({firstName, lastName, shirtNumber, color, profileUrl}: PlayerBannerProps) {
+export default function PlayerBanner({firstName, lastName, shirtNumber, color, profileUrl, isCoach}: PlayerBannerProps) {
     return(<>
         <div className={clsx("h-[230px]")} 
             style={{
@@ -31,9 +32,12 @@ export default function PlayerBanner({firstName, lastName, shirtNumber, color, p
                     <div className="text-[18px] lg:text-[32px]">{lastName}</div>
                     <div className="text-[42px] lg:text-[64px] font-extrabold">{firstName}</div>
                 </div>
-                <div className="p-3 absolute lg:top-[-25px] top-[160px] lg:right-[70px] text-[42px] lg:text-[170px] font-extrabold">
-                    {shirtNumber}
-                </div>
+                {
+                    !isCoach &&
+                    <div className="p-3 absolute lg:top-[-25px] top-[160px] lg:right-[70px] text-[42px] lg:text-[170px] font-extrabold">
+                        {shirtNumber}
+                    </div>
+                }
             </div>
         </div>
     </>)
