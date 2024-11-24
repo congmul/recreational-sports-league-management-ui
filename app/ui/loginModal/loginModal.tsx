@@ -2,11 +2,12 @@
 
 import { userService } from '@/app/lib/api-services';
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { setCookie } from '@/app/lib/utils';
 
 const LoginModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const router = useRouter();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
@@ -30,7 +31,12 @@ const LoginModal = () => {
                 const email = formData.get('email') as string;
                 const password = formData.get('password') as string;
                 const res = await userService.login({email, password});
-                console.log({res, pathname});
+                // store auth in cookie
+                if(!res) return;
+                setCookie('accessToken', res.access_token, 1);
+                setCookie('userInfo',  JSON.stringify(res.userInfo), 1);
+                closeModal();
+                router.refresh();
             }}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -64,7 +70,7 @@ const LoginModal = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900"
                 >
                   Sign in
                 </button>

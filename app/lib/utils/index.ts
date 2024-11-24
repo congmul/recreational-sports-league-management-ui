@@ -1,2 +1,2 @@
-import { darkenColor, capitalizeFirstLetter } from './helper';
-export { darkenColor, capitalizeFirstLetter }; 
+import { darkenColor, capitalizeFirstLetter, setCookie, getCookie } from './helper';
+export { darkenColor, capitalizeFirstLetter, setCookie, getCookie }; 
