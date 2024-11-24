@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { setCookie } from '@/app/lib/utils';
+import { clsx } from 'clsx';
+import { createPortal } from 'react-dom';
 
-const LogoutModal = () => {
+const LogoutModal = ({isMobile}: {isMobile?:boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const openModal = () => setIsOpen(true);
@@ -15,13 +17,14 @@ const LogoutModal = () => {
       {/* Trigger Button */}
       <button
         onClick={openModal}
-        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+        className={clsx("text-sm font-medium text-gray-700 hover:text-gray-800", {"w-full text-left -m-2 block p-2 text-[16px] text-black hover:text-white": isMobile})}
       >
         Logout
       </button>
 
       {/* Modal */}
       {isOpen && (
+        createPortal(
         <div className="fixed inset-[-30px] flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-6 shadow-lg w-96">
             <h2 className="text-lg font-bold mb-4">Logout</h2>
@@ -39,6 +42,8 @@ const LogoutModal = () => {
             </div>
           </div>
         </div>
+        , document.body
+        )
       )}
     </>
   );
