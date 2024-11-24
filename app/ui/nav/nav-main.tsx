@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import NavLink from './navLink';
 import NavMobile from './navMobile';
-  
-export default function NavMain() {
+import LoginModal from '../loginModal/loginModal';
+
+export default async function NavMain() {    
     return(<>
     <div className="bg-white">
       <header className="relative bg-white border-b border-gray-200">
@@ -35,9 +36,7 @@ export default function NavMain() {
 
                 <div className="ml-auto flex items-center">
                     <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                    <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                        Sign in
-                    </Link>
+                    <LoginModal />
                     <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
                     <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                         Create account
