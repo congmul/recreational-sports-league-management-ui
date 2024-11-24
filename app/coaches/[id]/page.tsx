@@ -21,6 +21,8 @@ export default async function Page({params}:CoachDetailProps) {
             profileUrl={coach?.profileUrl}
             />    
             <PlayerDetail
+                id={coach._id}
+                name={`${coach.firstName} ${coach.lastName}`}
                 nationality={coach.nationality}
                 dateOfBirth={coach.dateOfBirth}
                 teamName={coach.team.name}

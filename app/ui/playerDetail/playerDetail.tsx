@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import { capitalizeFirstLetter } from '@/app/lib/utils';
+import RemoveModal from '../removeModal/removeModal';
+import { cookies } from 'next/headers';
 
 interface PlayerDetailProps {
+  id: string,
+  name: string,
   nationality: string,
   dateOfBirth: string,
   teamName: string,
@@ -13,6 +17,8 @@ interface PlayerDetailProps {
 }
 
 async function PlayerDetail({
+  id,
+  name,
   nationality,
   dateOfBirth,
   teamName,
@@ -22,6 +28,10 @@ async function PlayerDetail({
   section,
   isCoach
 }: PlayerDetailProps) {  
+  const cookieStore = await cookies();
+  const userInfo = cookieStore.get('userInfo')?.value 
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
+
     return(
       <div className="bg-white rounded-md p-5">
         <h2 className="text-lg font-bold text-indigo-900 mb-4">Personal Details</h2>
@@ -71,6 +81,10 @@ async function PlayerDetail({
             <span className="text-indigo-900 font-medium">{section}</span>
           </div>
         </>
+      }
+      {
+        parsedUserInfo && parsedUserInfo.role === "admin" && 
+        <RemoveModal id={id} name={name} category={isCoach ? 'coaches' : 'players'} isPlayerDetail={true} />
       }
         </div>
       </div>

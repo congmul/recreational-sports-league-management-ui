@@ -1,27 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { createPortal } from 'react-dom';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { coachService, playerService } from '@/app/lib/api-services';
 
-const RemoveModal = ({id, name, category}: {id: string, name:string, category: string}) => {
+const RemoveModal = ({id, name, category, isPlayerDetail}: {id: string, name:string, category: string, isPlayerDetail?: boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
   return (
     <>
       {/* Trigger Button */}
-      <button
-        onClick={openModal}
-        className={clsx("w-5 text-sm font-medium text-gray-700 hover:text-red-500")}
-      >
-        <TrashIcon />
-      </button>
+      {
+        isPlayerDetail 
+        ?<div className="flex justify-end mt-5">
+            <button
+              onClick={openModal}
+              className={clsx("w-7 text-sm font-medium text-gray-700 hover:text-red-500")}
+            >
+              <TrashIcon />
+          </button>
+          </div>
+        : <button
+          onClick={openModal}
+          className={clsx("w-5 text-sm font-medium text-gray-700 hover:text-red-500")}
+        >
+          <TrashIcon />
+        </button>
+      }
 
       {/* Modal */}
       {isOpen && (
@@ -36,14 +48,16 @@ const RemoveModal = ({id, name, category}: {id: string, name:string, category: s
               <button className="text-gray-500 hover:text-gray-700 mr-4" onClick={() => closeModal()}>Cancel</button>
               <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900" onClick={async () => {
                 try{
-                  if(category === 'player'){
+                  if(category === 'players'){
                     await playerService.deletePlayerById(id);                  
-                  }else if(category === 'coach'){
+                  }else if(category === 'coaches'){
                     await coachService.deleteCoachById(id); 
                   }else if(category === 'team'){
   
                   }
-                  router.refresh();
+                  if(isPlayerDetail){
+                    router.push(`/${category}`)
+                  } 
                 }catch(error){
                   console.log(error);
                 }

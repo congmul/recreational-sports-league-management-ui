@@ -66,7 +66,7 @@ async function Table(){
               {
                 parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <td className="px-6 py-4 text-gray-700">
-                  <RemoveModal id={coach._id} name={`${coach.firstName} ${coach.lastName}`} category="coach" />
+                  <RemoveModal id={coach._id} name={`${coach.firstName} ${coach.lastName}`} category="coaches" />
                 </td>
               }
             </tr>
