@@ -26,7 +26,7 @@ export function setCookie(name: string, value: string, days: number) {
 
 export function getCookie(name: string) {
     const cookieArr = document.cookie.split(';');
-    for (let cookie of cookieArr) {
+    for (const cookie of cookieArr) {
       const [key, value] = cookie.trim().split('=');
       if (key === name) {
         return value;
