@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import NavLink from './navLink';
 import NavMobile from './navMobile';
-  
-export default function NavMain() {
+import { cookies } from "next/headers";
+import LoginModal from '../loginModal/loginModal';
+import LogoutModal from '../logoutModal/logoutModal';
+import { capitalizeFirstLetter } from '@/app/lib/utils';
+
+export default async function NavMain() {    
+  const cookieStore = await cookies();
+  const userInfo = cookieStore.get('userInfo')?.value 
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
     return(<>
     <div className="bg-white">
       <header className="relative bg-white border-b border-gray-200">
@@ -35,21 +41,20 @@ export default function NavMain() {
 
                 <div className="ml-auto flex items-center">
                     <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                    <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                        Sign in
-                    </Link>
-                    <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                    <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                        Create account
-                    </Link>
-                    </div>
-
-                    {/* Search */}
-                    <div className="flex lg:ml-6">
-                    <Link href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                        <span className="sr-only">Search</span>
-                        <MagnifyingGlassIcon aria-hidden="true" className="size-6" />
-                    </Link>
+                      {
+                        !parsedUserInfo
+                        ? <>
+                          <LoginModal />
+                          <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
+                          <Link href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                              Create account
+                          </Link>
+                        </>
+                        : <>
+                          { parsedUserInfo.firstName && <div className="text-sm font-medium text-gray-700 hover:text-gray-800">Hi, {capitalizeFirstLetter(parsedUserInfo.firstName)}</div> }
+                          <LogoutModal />
+                        </>
+                      }
                     </div>
                 </div>
             </div>

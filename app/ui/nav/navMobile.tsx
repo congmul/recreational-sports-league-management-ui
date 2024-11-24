@@ -9,6 +9,10 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { getCookie } from '@/app/lib/utils'
+import LoginModal from '../loginModal/loginModal';
+import LogoutModal from '../logoutModal/logoutModal';
+import { capitalizeFirstLetter } from '@/app/lib/utils';
 
 const navigation = {
     categories: [
@@ -33,7 +37,9 @@ const navigation = {
   
 export default function NavMobile() {
     const [open, setOpen] = useState(false)
-  
+    const userInfo = getCookie("userInfo");
+    const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
+
     return(<>
     <div className="bg-white">
       {/* Mobile menu */}
@@ -74,16 +80,27 @@ export default function NavMobile() {
             </div>
 
             <div className="border-t border-gray-200 py-3">
-              <div className="flow-root px-4 py-3 hover:bg-violet-900 hover:text-white cursor-pointer">
-                <a href="#" className="-m-2 block p-2 font-medium">
-                  Sign in
-                </a>
-              </div>
-              <div className="flow-root px-4 py-3 hover:bg-violet-900 hover:text-white cursor-pointer">
-                <a href="#" className="-m-2 block p-2 font-medium">
-                  Create account
-                </a>
-              </div>
+              {
+                !parsedUserInfo 
+                ?<>
+                  <div className="flow-root px-4 py-3 hover:bg-violet-900 hover:text-white cursor-pointer">
+                    <LoginModal isMobile={true} />
+                  </div>
+                  <div className="flow-root px-4 py-3 hover:bg-violet-900 hover:text-white cursor-pointer">
+                    <a href="#" className="-m-2 block p-2 font-medium">
+                      Create account
+                    </a>
+                  </div>
+                </>
+                :<>
+                  <div className="flow-root px-4 py-3">
+                    { parsedUserInfo.firstName && <div className="text-sm font-medium text-gray-700 hover:text-gray-800">Hi, {capitalizeFirstLetter(parsedUserInfo.firstName)}</div> }
+                  </div>
+                  <div className="flow-root px-4 py-3 hover:bg-violet-900 hover:text-white cursor-pointer">
+                    <LogoutModal isMobile={true} />
+                  </div>
+              </>
+              }
             </div>
           </DialogPanel>
         </div>
