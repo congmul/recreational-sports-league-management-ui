@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import { createPortal } from 'react-dom';
 import { TrashIcon } from '@heroicons/react/24/outline';
@@ -10,7 +10,6 @@ import { coachService, playerService } from '@/app/lib/api-services';
 const RemoveModal = ({id, name, category, isPlayerDetail}: {id: string, name:string, category: string, isPlayerDetail?: boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const pathname = usePathname();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
