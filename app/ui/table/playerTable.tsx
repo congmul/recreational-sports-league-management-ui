@@ -3,9 +3,15 @@ import { capitalizeFirstLetter } from "@/app/lib/utils";
 import Image from "next/image";
 import { playerService } from "@/app/lib/api-services";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import RemoveModal from "../removeModal/removeModal";
+
 
 async function PlayerTable() {
   const players = await playerService.getAllPlayers();
+  const cookieStore = await cookies();
+  const userInfo = cookieStore.get('userInfo')?.value 
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
 
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
@@ -15,6 +21,10 @@ async function PlayerTable() {
             <th className="px-6 py-3 border-b">Player</th>
             <th className="px-6 py-3 border-b">Position</th>
             <th className="px-6 py-3 border-b">Nationality</th>
+              {
+                parsedUserInfo && parsedUserInfo.role && 
+                <th className="px-6 py-3 border-b">Option</th>
+              }
           </tr>
         </thead>
         <tbody>        
@@ -34,6 +44,12 @@ async function PlayerTable() {
               </td>
               <td className="px-6 py-4 text-gray-700">{capitalizeFirstLetter(player.position)}</td>
               <td className="px-6 py-4 text-gray-700">{player.nationality}</td>
+              {
+                parsedUserInfo && parsedUserInfo.role && 
+                <td className="px-6 py-4 text-gray-700">
+                  <RemoveModal id={player._id} name={`${player.firstName} ${player.lastName}`} category="player" />
+                </td>
+              }
             </tr>
           ))}
         </tbody>
