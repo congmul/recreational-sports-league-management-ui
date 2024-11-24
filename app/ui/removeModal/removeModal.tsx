@@ -37,9 +37,9 @@ const RemoveModal = ({id, name, category}: {id: string, name:string, category: s
               <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900" onClick={async () => {
                 try{
                   if(category === 'player'){
-                    const res = await playerService.deletePlayerById(id);                  
+                    await playerService.deletePlayerById(id);                  
                   }else if(category === 'coach'){
-                    const res = await coachService.deleteCoachById(id); 
+                    await coachService.deleteCoachById(id); 
                   }else if(category === 'team'){
   
                   }

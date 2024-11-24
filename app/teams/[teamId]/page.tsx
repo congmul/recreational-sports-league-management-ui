@@ -166,6 +166,7 @@ export default async function Page({ params }: TeamDetailProps) {
                     <TabPanel key={"coach"} className="rounded-xl bg-white/5 p-3">
                         {
                             team.coach == null
+                            // TODO: ADD New Coach from the list, if there is no coach, then need to show "Add new coach"
                             ? <div>No Coach</div>
                             :
                             <Link href={`/coaches/${team.coach._id}`} className="p-3">
