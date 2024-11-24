@@ -20,7 +20,7 @@ export const coachService = {
     },
     deleteCoachById: async (id: string):Promise<{status: number, message: string} | undefined> => {
         try{
-            const { data } = await axiosInstance.delete(`/coach/${id}`,);
+            const { data } = await axiosInstance.delete(`/coach/${id}`);
             return data;            
         }catch(err){
             console.log(err);

@@ -2,9 +2,14 @@ import React from "react";
 import Image from "next/image";
 import { coachService } from "@/app/lib/api-services";
 import Link from "next/link";
+import RemoveModal from "../removeModal/removeModal";
+import { cookies } from "next/headers";
 
 async function Table(){
   const coaches = await coachService.getAllCoaches();
+  const cookieStore = await cookies();
+  const userInfo = cookieStore.get('userInfo')?.value 
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
 
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
@@ -14,6 +19,10 @@ async function Table(){
             <th className="px-6 py-3 border-b">Coach</th>
             <th className="px-6 py-3 border-b">Nationality</th>
             <th className="px-6 py-3 border-b">Team</th>
+              {
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
+                <th className="px-6 py-3 border-b">Option</th>
+              }
           </tr>
         </thead>
         <tbody>        
@@ -54,6 +63,12 @@ async function Table(){
                 }
                 <span className="text-gray-900">{coach.teamName}</span>
               </td>
+              {
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
+                <td className="px-6 py-4 text-gray-700">
+                  <RemoveModal id={coach._id} name={`${coach.firstName} ${coach.lastName}`} category="coach" />
+                </td>
+              }
             </tr>
           ))}
         </tbody>

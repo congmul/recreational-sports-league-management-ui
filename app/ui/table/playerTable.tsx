@@ -22,7 +22,7 @@ async function PlayerTable() {
             <th className="px-6 py-3 border-b">Position</th>
             <th className="px-6 py-3 border-b">Nationality</th>
               {
-                parsedUserInfo && parsedUserInfo.role && 
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <th className="px-6 py-3 border-b">Option</th>
               }
           </tr>
@@ -45,7 +45,7 @@ async function PlayerTable() {
               <td className="px-6 py-4 text-gray-700">{capitalizeFirstLetter(player.position)}</td>
               <td className="px-6 py-4 text-gray-700">{player.nationality}</td>
               {
-                parsedUserInfo && parsedUserInfo.role && 
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <td className="px-6 py-4 text-gray-700">
                   <RemoveModal id={player._id} name={`${player.firstName} ${player.lastName}`} category="player" />
                 </td>

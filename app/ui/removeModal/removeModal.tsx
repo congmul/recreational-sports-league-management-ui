@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import { createPortal } from 'react-dom';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import { playerService } from '@/app/lib/api-services';
+import { coachService, playerService } from '@/app/lib/api-services';
 
 const RemoveModal = ({id, name, category}: {id: string, name:string, category: string}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +39,7 @@ const RemoveModal = ({id, name, category}: {id: string, name:string, category: s
                   if(category === 'player'){
                     const res = await playerService.deletePlayerById(id);                  
                   }else if(category === 'coach'){
-                    // const res = await coachService.deleteCoachById(id); 
+                    const res = await coachService.deleteCoachById(id); 
                   }else if(category === 'team'){
   
                   }
