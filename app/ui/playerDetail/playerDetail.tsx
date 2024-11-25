@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { capitalizeFirstLetter } from '@/app/lib/utils';
 import RemoveModal from '../removeModal/removeModal';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 interface PlayerDetailProps {
   id: string,
@@ -83,8 +85,14 @@ async function PlayerDetail({
         </>
       }
       {
-        parsedUserInfo && parsedUserInfo.role === "admin" && 
+        parsedUserInfo && parsedUserInfo.role === "admin" && <div className="flex w-full justify-end item-center">
+        <Link href={`/players/${id}/edit`}
+            className={"mt-5 mr-3 w-[28px] text-sm font-medium text-gray-700 hover:text-red-500"}
+          >
+            <PencilSquareIcon />
+        </Link>
         <RemoveModal id={id} name={name} category={isCoach ? 'coaches' : 'players'} isPlayerDetail={true} />
+        </div>
       }
         </div>
       </div>

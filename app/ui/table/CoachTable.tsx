@@ -4,6 +4,7 @@ import { coachService } from "@/app/lib/api-services";
 import Link from "next/link";
 import RemoveModal from "../removeModal/removeModal";
 import { cookies } from "next/headers";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 async function Table(){
   const coaches = await coachService.getAllCoaches();
@@ -66,7 +67,14 @@ async function Table(){
               {
                 parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <td className="px-6 py-4 text-gray-700">
-                  <RemoveModal id={coach._id} name={`${coach.firstName} ${coach.lastName}`} category="coaches" />
+                    <div className="flex">
+                      <Link href={`/coaches/${coach._id}/edit`}
+                        className={"mr-3 w-6 text-sm font-medium text-gray-700 hover:text-red-500"}
+                      >
+                        <PencilSquareIcon />
+                    </Link>                    
+                    <RemoveModal id={coach._id} name={`${coach.firstName} ${coach.lastName}`} category="coaches" />
+                  </div>
                 </td>
               }
             </tr>

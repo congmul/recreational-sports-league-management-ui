@@ -5,6 +5,7 @@ import { playerService } from "@/app/lib/api-services";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import RemoveModal from "../removeModal/removeModal";
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 
 async function PlayerTable() {
@@ -47,7 +48,14 @@ async function PlayerTable() {
               {
                 parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <td className="px-6 py-4 text-gray-700">
-                  <RemoveModal id={player._id} name={`${player.firstName} ${player.lastName}`} category="players" />
+                  <div className="flex">
+                      <Link href={`/players/${player._id}/edit`}
+                        className={"mr-3 w-6 text-sm font-medium text-gray-700 hover:text-red-500"}
+                      >
+                        <PencilSquareIcon />
+                    </Link>
+                    <RemoveModal id={player._id} name={`${player.firstName} ${player.lastName}`} category="players" />
+                  </div>
                 </td>
               }
             </tr>
