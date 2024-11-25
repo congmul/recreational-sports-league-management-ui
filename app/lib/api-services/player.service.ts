@@ -1,4 +1,4 @@
-import { Player } from '@/app/lib/models'
+import { Player, PlayerFormType } from '@/app/lib/models'
 import axiosInstance from '@/app/lib/utils/axiosIntercepter';
 
 export const playerService = {
@@ -13,6 +13,15 @@ export const playerService = {
     getPlayerById: async (id: string):Promise<Player | undefined> => {
         try{
             const { data } = await axiosInstance.get(`/player/${id}`);
+            return data;            
+        }catch(err){
+            console.log(err);
+        }
+    },
+    updatePlayerById: async (id: string, body: PlayerFormType):Promise<Player | undefined> => {
+        try{
+            const { id, ...rest} = body;
+            const { data } = await axiosInstance.patch(`/player/${id}`, rest);
             return data;            
         }catch(err){
             console.log(err);
