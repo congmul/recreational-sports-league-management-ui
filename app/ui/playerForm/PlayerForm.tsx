@@ -4,7 +4,7 @@ import { SetStateAction, useEffect, useState } from "react";
 import { positions, nationalities } from "@/app/lib/const.data";
 import Dropdown from "../dropdown/Dropdown";
 import { capitalizeFirstLetter } from "@/app/lib/utils";
-import { playerService, teamService } from "@/app/lib/api-services";
+import { coachService, playerService, teamService } from "@/app/lib/api-services";
 import { PlayerFormType, Team } from "@/app/lib/models";
 import { useRouter } from 'next/navigation';
 
@@ -62,10 +62,10 @@ export default function PlayerForm({
 
         }else{
             if(isCoach){
-                // TODO
-                console.log('isCoach')
+                await coachService.updateUpdateById(formDataState);
+                router.push(`/coaches/${formDataState.id}`)
             }else{
-                await playerService.updatePlayerById(formDataState.id, formDataState);
+                await playerService.updatePlayerById(formDataState);
                 router.push(`/players/${formDataState.id}`)
             }
         }

@@ -92,7 +92,7 @@ async function PlayerDetail({
       }
       {
         parsedUserInfo && parsedUserInfo.role === "admin" && <div className="flex w-full justify-end item-center">
-        <Link href={`/players/${id}/edit`}
+        <Link href={isCoach ? `/coaches/${id}/edit` : `/players/${id}/edit`}
             className={"mt-5 mr-3 w-[28px] text-sm font-medium text-gray-700 hover:text-red-500"}
           >
             <PencilSquareIcon />

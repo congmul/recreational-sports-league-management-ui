@@ -18,6 +18,15 @@ export const coachService = {
             console.log(err);
         }
     },
+    updateUpdateById: async (body: any) => {
+        try{
+            const { id, ...rest} = body;
+            const { data } = await axiosInstance.patch(`/coach/${id}`, rest);
+            return null;            
+        }catch(err){
+            console.log(err);
+        }
+    },
     deleteCoachById: async (id: string):Promise<{status: number, message: string} | undefined> => {
         try{
             const { data } = await axiosInstance.delete(`/coach/${id}`);
