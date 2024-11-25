@@ -2,6 +2,7 @@ import Banner from '@/app/ui/banner/banner';
 import PlayerTable from '@/app/ui/table/playerTable';
 import { TableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
+import AddButtonLink from '../ui/add-button-link/AddButtonLink';
 
 export default async function Page() {
     return (<>
@@ -12,6 +13,7 @@ export default async function Page() {
             <PlayerTable />
           </Suspense>
         </div>
+        <AddButtonLink title='Add new player' url="/players/create" />
       </div>
     </>
     );
