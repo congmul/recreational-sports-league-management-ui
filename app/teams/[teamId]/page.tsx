@@ -164,17 +164,23 @@ export default async function Page({ params }: TeamDetailProps) {
                     </TabPanel>
 
                     <TabPanel key={"coach"} className="rounded-xl bg-white/5 p-3">
-                        <Link href={`/coaches/${team.coach._id}`} className="p-3">
-                            <CoachCard 
-                                firstName={team.coach.firstName}
-                                lastName={team.coach.lastName}
-                                joinedTeam={team.coach.joinedTeam?.split("T")[0]}
-                                dateOfBirth={team.coach.dateOfBirth?.split("T")[0]}
-                                nationality={team.coach.nationality}
-                                profileUrl={team.coach.profileUrl}
-                                teamColor={team.teamColor}
-                            />
-                        </Link>
+                        {
+                            team.coach == null
+                            // TODO: ADD New Coach from the list, if there is no coach, then need to show "Add new coach"
+                            ? <div>No Coach</div>
+                            :
+                            <Link href={`/coaches/${team.coach._id}`} className="p-3">
+                                <CoachCard 
+                                    firstName={team.coach.firstName}
+                                    lastName={team.coach.lastName}
+                                    joinedTeam={team.coach.joinedTeam?.split("T")[0]}
+                                    dateOfBirth={team.coach.dateOfBirth?.split("T")[0]}
+                                    nationality={team.coach.nationality}
+                                    profileUrl={team.coach.profileUrl}
+                                    teamColor={team.teamColor}
+                                />
+                            </Link>
+                        }
                     </TabPanel>
                 </TabPanels>
             </TabGroup>

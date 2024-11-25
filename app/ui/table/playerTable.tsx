@@ -3,18 +3,29 @@ import { capitalizeFirstLetter } from "@/app/lib/utils";
 import Image from "next/image";
 import { playerService } from "@/app/lib/api-services";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import RemoveModal from "../removeModal/removeModal";
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+
 
 async function PlayerTable() {
   const players = await playerService.getAllPlayers();
+  const cookieStore = await cookies();
+  const userInfo = cookieStore.get('userInfo')?.value 
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
 
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
-      <table className="min-w-full border-collapse border border-gray-200">
+      <table className="min-w-full border-collapse border border-gray-200 mb-[125px]">
         <thead>
           <tr className="bg-gray-100 text-left text-sm font-medium text-gray-700 text-indigo-900">
             <th className="px-6 py-3 border-b">Player</th>
             <th className="px-6 py-3 border-b">Position</th>
             <th className="px-6 py-3 border-b">Nationality</th>
+              {
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
+                <th className="px-6 py-3 border-b">Option</th>
+              }
           </tr>
         </thead>
         <tbody>        
@@ -34,6 +45,19 @@ async function PlayerTable() {
               </td>
               <td className="px-6 py-4 text-gray-700">{capitalizeFirstLetter(player.position)}</td>
               <td className="px-6 py-4 text-gray-700">{player.nationality}</td>
+              {
+                parsedUserInfo && parsedUserInfo.role === "admin" && 
+                <td className="px-6 py-4 text-gray-700">
+                  <div className="flex">
+                      <Link href={`/players/${player._id}/edit`}
+                        className={"mr-3 w-6 text-sm font-medium text-gray-700 hover:text-red-500"}
+                      >
+                        <PencilSquareIcon />
+                    </Link>
+                    <RemoveModal id={player._id} name={`${player.firstName} ${player.lastName}`} category="players" />
+                  </div>
+                </td>
+              }
             </tr>
           ))}
         </tbody>

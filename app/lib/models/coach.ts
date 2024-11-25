@@ -14,3 +14,16 @@ export type Coach = {
     createdAt: string,
     updatedAt: string,
 }
+
+export type CoachFormType = {
+    id: string;
+    profileUrl?: string;
+    firstName: string;
+    lastName: string;
+    nationality?: string;
+    dateOfBirth?: string;
+    team?: string; // Team Id
+    teamName?: string,
+    crest?: string,
+    joinedTeam?: string;
+}
