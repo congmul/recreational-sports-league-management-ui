@@ -31,22 +31,19 @@ export default function PlayerForm({
         .then((teamRes) => {
             setTeams(teamRes);
             const teamList = teamRes?.map(team => team.name);
-            teamList && setTeamList(teamList)
+            if(teamList) setTeamList(teamList);
         })
     }, [])
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
         setFormDataState({ ...formDataState, [name]: value });
       };
 
-    const formSubmitHandle = async (e: React.FormEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-
-        console.log({
-            formDataState
-        })
+    async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
+        e.preventDefault();
         if(isCoach){
-
+            // TODO
+            console.log('isCoach')
         }else{
             await playerService.updatePlayerById(formDataState.id, formDataState);
             router.push(`/players/${formDataState.id}`)
