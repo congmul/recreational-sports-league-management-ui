@@ -50,7 +50,8 @@ export default function PlayerForm({
         if(isCreate){
             // Create
             if(isCoach){
-                const res = await coachService.createCoach(formDataState);                
+                const coachBody = formDataState.team ? {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest} : {...formDataState}
+                const res = await coachService.createCoach(coachBody);
                 res && router.push(`/coaches/${res._id}`)
             }else{                
                 const res = await playerService.createPlayer(formDataState);                
@@ -59,7 +60,8 @@ export default function PlayerForm({
 
         }else{
             if(isCoach){
-                await coachService.updateUpdateById(formDataState);
+                const coachBody = formDataState.team ? {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest} : {...formDataState}
+                await coachService.updateUpdateById(coachBody);
                 router.push(`/coaches/${formDataState.id}`)
             }else{
                 await playerService.updatePlayerById(formDataState);
