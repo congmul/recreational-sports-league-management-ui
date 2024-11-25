@@ -6,12 +6,12 @@ interface PlayerBannerProps {
     firstName: string,
     lastName: string,
     shirtNumber?: number,
-    color: string,
+    color?: string,
     profileUrl: string | undefined
     isCoach?: boolean
 }
 
-export default function PlayerBanner({firstName, lastName, shirtNumber, color, profileUrl, isCoach}: PlayerBannerProps) {
+export default function PlayerBanner({firstName, lastName, shirtNumber, color = "#312e81", profileUrl, isCoach}: PlayerBannerProps) {
     return(<>
         <div className={clsx("h-[230px]")} 
             style={{

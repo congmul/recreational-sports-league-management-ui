@@ -9,14 +9,16 @@ import { PlayerFormType, Team } from "@/app/lib/models";
 import { useRouter } from 'next/navigation';
 
 interface PlayerFormProps {
+    isCreate?: boolean
     isCoach?: boolean,
-    selectedTeam: Team,
+    selectedTeam?: Team,
     setSelectedTeam: React.Dispatch<SetStateAction<Team | undefined>>
     formDataState: PlayerFormType
     setFormDataState: React.Dispatch<SetStateAction<PlayerFormType | undefined>>
   }
 
 export default function PlayerForm({
+    isCreate,
     formDataState,
     setFormDataState,
     isCoach,
@@ -31,22 +33,41 @@ export default function PlayerForm({
         .then((teamRes) => {
             setTeams(teamRes);
             const teamList = teamRes?.map(team => team.name);
-            if(teamList) setTeamList(teamList);
+            if(teamList) setTeamList([...teamList, 'Unselect']);
         })
     }, [])
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
-        setFormDataState({ ...formDataState, [name]: name === 'shirtNumber' ? parseInt(value) : value });
+        let shirtValue:number = 0;
+        if(name === 'shirtNumber'){
+            isNaN(parseInt(value)) ? shirtValue = 0 : shirtValue = parseInt(value)
+        }
+        setFormDataState({ ...formDataState, [name]: name === 'shirtNumber' ? shirtValue : value });
       };
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
-        if(isCoach){
-            // TODO
-            console.log('isCoach')
+        if(isCreate){
+
+            if(isCoach){
+                // TODO
+                console.log('isCoach')
+            }else{
+                console.log('isPlayer')
+                // Create
+                const res = await playerService.createPlayer(formDataState);
+                console.log(res);
+                res && router.push(`/players/${res._id}`)
+            }
+
         }else{
-            await playerService.updatePlayerById(formDataState.id, formDataState);
-            router.push(`/players/${formDataState.id}`)
+            if(isCoach){
+                // TODO
+                console.log('isCoach')
+            }else{
+                await playerService.updatePlayerById(formDataState.id, formDataState);
+                router.push(`/players/${formDataState.id}`)
+            }
         }
 
     }
@@ -114,6 +135,7 @@ export default function PlayerForm({
                             </label>
                             <input
                                 type="number"
+                                min="0"
                                 id="shirtNumber"
                                 name="shirtNumber"
                                 placeholder="7"
@@ -132,7 +154,7 @@ export default function PlayerForm({
                             type="date"
                             id="dateOfBirth"
                             name="dateOfBirth"
-                            value={formDataState.dateOfBirth.split("T")[0]}
+                            value={formDataState.dateOfBirth && formDataState.dateOfBirth.split("T")[0]}
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md p-2 h-[42px]"
                         />
@@ -153,6 +175,9 @@ export default function PlayerForm({
                                 if(team){
                                     setFormDataState({ ...formDataState, team: team._id });
                                     setSelectedTeam(team);
+                                }else{
+                                    setFormDataState({ ...formDataState, team: undefined });
+                                    setSelectedTeam(undefined);
                                 }
                             }}
                         />
@@ -160,7 +185,7 @@ export default function PlayerForm({
                         <input
                             type="hidden"
                             name="teamName" // The name attribute must match the API request key
-                            value={selectedTeam.name}
+                            value={selectedTeam?.name || ""}
                         />
                     </div>
                     
@@ -172,7 +197,7 @@ export default function PlayerForm({
                             type="date"
                             id="joinedTeam"
                             name="joinedTeam"
-                            value={formDataState.joinedTeam.split("T")[0]}
+                            value={formDataState.joinedTeam && formDataState.joinedTeam.split("T")[0]}
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md p-2 h-[42px]"
                         />

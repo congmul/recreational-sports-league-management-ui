@@ -56,8 +56,14 @@ async function PlayerDetail({
           <div className="flex items-center justify-between border-b py-3">
             <span className="text-gray-600 font-medium">Team</span>
             <div className="flex items-center space-x-2">
-              <Image src={teamLogoUrl} alt="Club Logo" width={24} height={24} />
-              <span className="text-indigo-900 font-medium">{teamName}</span>
+              {
+                teamName 
+                ?<>
+                    <Image src={teamLogoUrl} alt="Club Logo" width={24} height={24} />
+                    <span className="text-indigo-900 font-medium">{teamName}</span>
+                  </>
+                : "None"
+              }
             </div>
           </div>
 

@@ -18,14 +18,14 @@ export type Player = {
 
 export type PlayerFormType = {
     id: string;
-    profileUrl: string;
+    profileUrl?: string;
     firstName: string;
     lastName: string;
-    nationality: string;
-    dateOfBirth: string;
-    team: string; // Team Id
+    nationality?: string;
+    dateOfBirth?: string;
+    team?: string; // Team Id
     shirtNumber?: number;
-    joinedTeam: string;
+    joinedTeam?: string;
     position?: string;
     section?: string;
 }

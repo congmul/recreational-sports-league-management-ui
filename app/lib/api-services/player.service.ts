@@ -18,6 +18,15 @@ export const playerService = {
             console.log(err);
         }
     },
+    createPlayer: async (body: PlayerFormType):Promise<Player | undefined> => {
+        try{
+            const { id, ...rest} = body;
+            const { data } = await axiosInstance.post(`/player`, rest);
+            return data;            
+        }catch(err){
+            console.log(err);
+        }
+    },
     updatePlayerById: async (id: string, body: PlayerFormType):Promise<Player | undefined> => {
         try{
             const { id, ...rest} = body;

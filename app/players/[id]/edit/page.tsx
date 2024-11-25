@@ -23,7 +23,7 @@ export default function Page() {
                 lastName: player.lastName,
                 nationality: player.nationality,
                 dateOfBirth: player.dateOfBirth,
-                team: player.team._id,
+                team: player.team?._id,
                 shirtNumber: player.shirtNumber,
                 joinedTeam: player.joinedTeam,
                 position: player.position,
@@ -33,7 +33,7 @@ export default function Page() {
     }, [])
 
     return(<>    
-     {formDataState && selectedTeam && <>
+     {formDataState && <>
         <PlayerBanner
           firstName={formDataState.firstName}
           lastName={formDataState.lastName}

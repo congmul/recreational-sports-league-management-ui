@@ -16,7 +16,7 @@ async function PlayerTable() {
 
   return (
     <div className="overflow-y-auto w-full max-h-[calc(100vh-187px)] lg:max-h-[calc(100vh-241px)]">
-      <table className="min-w-full border-collapse border border-gray-200">
+      <table className="min-w-full border-collapse border border-gray-200 mb-[125px]">
         <thead>
           <tr className="bg-gray-100 text-left text-sm font-medium text-gray-700 text-indigo-900">
             <th className="px-6 py-3 border-b">Player</th>

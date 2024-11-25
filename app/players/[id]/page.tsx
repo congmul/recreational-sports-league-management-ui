@@ -16,7 +16,7 @@ export default async function Page({ params }: PlayerDetailProps) {
           firstName={player.firstName}
           lastName={player.lastName}
           shirtNumber={player.shirtNumber}
-          color={player.team.teamColor}
+          color={player.team?.teamColor}
           profileUrl={player?.profileUrl}
         />
         <PlayerDetail 
@@ -24,8 +24,8 @@ export default async function Page({ params }: PlayerDetailProps) {
             name={`${player.firstName} ${player.lastName}`}
             nationality={player.nationality}
             dateOfBirth={player.dateOfBirth}
-            teamName={player.team.name}
-            teamLogoUrl={player.team.crest}
+            teamName={player.team?.name}
+            teamLogoUrl={player.team?.crest}
             joinedTeam={player.joinedTeam}
             position={player.position}
             section={player.section} 
