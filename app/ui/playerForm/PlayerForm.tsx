@@ -40,7 +40,11 @@ export default function PlayerForm({
         const { name, value } = e.target;
         let shirtValue:number = 0;
         if(name === 'shirtNumber'){
-            isNaN(parseInt(value)) ? shirtValue = 0 : shirtValue = parseInt(value)
+            if(isNaN(parseInt(value))){
+                shirtValue = 0
+            }else{
+                shirtValue = parseInt(value)
+            }
         }
         setFormDataState({ ...formDataState, [name]: name === 'shirtNumber' ? shirtValue : value });
       };
@@ -50,17 +54,31 @@ export default function PlayerForm({
         if(isCreate){
             // Create
             if(isCoach){
-                const coachBody = formDataState.team ? {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest} : {...formDataState}
+                let coachBody
+                if(formDataState.team){
+                    coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
+                 }else{
+                    coachBody = {...formDataState}
+                }
                 const res = await coachService.createCoach(coachBody);
-                res && router.push(`/coaches/${res._id}`)
+                if(res){
+                    router.push(`/coaches/${res._id}`)
+                }
             }else{                
                 const res = await playerService.createPlayer(formDataState);                
-                res && router.push(`/players/${res._id}`)
+                if(res){
+                    router.push(`/players/${res._id}`)
+                }
             }
 
         }else{
-            if(isCoach){
-                const coachBody = formDataState.team ? {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest} : {...formDataState}
+            if(isCoach){                
+                let coachBody
+                if(formDataState.team){
+                    coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
+                 }else{
+                    coachBody = {...formDataState}
+                }
                 await coachService.updateUpdateById(coachBody);
                 router.push(`/coaches/${formDataState.id}`)
             }else{

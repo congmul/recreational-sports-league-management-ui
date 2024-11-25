@@ -22,16 +22,16 @@ export const playerService = {
         try{
             const { id, ...rest} = body;
             const { data } = await axiosInstance.post(`/player`, rest);
-            return data;            
+            return {_id: id, ...data};            
         }catch(err){
             console.log(err);
         }
     },
-    updatePlayerById: async (body: PlayerFormType):Promise<Player | undefined> => {
+    updatePlayerById: async (body: PlayerFormType) => {
         try{
             const { id, ...rest} = body;
-            const { data } = await axiosInstance.patch(`/player/${id}`, rest);
-            return data;            
+            await axiosInstance.patch(`/player/${id}`, rest);
+            return null;
         }catch(err){
             console.log(err);
         }
