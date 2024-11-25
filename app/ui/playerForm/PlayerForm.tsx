@@ -36,7 +36,7 @@ export default function PlayerForm({
     }, [])
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
-        setFormDataState({ ...formDataState, [name]: value });
+        setFormDataState({ ...formDataState, [name]: name === 'shirtNumber' ? parseInt(value) : value });
       };
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
