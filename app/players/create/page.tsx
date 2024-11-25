@@ -1,9 +1,8 @@
 'use client';
 
-import { playerService } from "@/app/lib/api-services";
 import PlayerBanner from "@/app/ui/playerBanner/playerBanner";
 import PlayerForm from "@/app/ui/playerForm/PlayerForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PlayerFormType, Team } from "@/app/lib/models";
 
 export default function Page() {

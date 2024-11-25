@@ -18,6 +18,16 @@ export const coachService = {
             console.log(err);
         }
     },
+    createCoach: async (body: any):Promise<Coach | undefined> => {
+        try{
+            const { id, ...rest} = body;
+            const { data } = await axiosInstance.post(`/coach`, rest);
+            return data;            
+        }catch(err){
+            console.log(err);
+        }
+    },
+
     updateUpdateById: async (body: any) => {
         try{
             const { id, ...rest} = body;

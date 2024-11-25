@@ -42,28 +42,32 @@ async function Table(){
                 </Link>
               </td>
               <td className="px-6 py-4 text-gray-700">{coach.nationality}</td>
-              <td className="px-6 py-4 flex items-center gap-4">
                 {
-                  coach.teamName === 'Liverpool FC'
-                  ? 
-                    <Image
-                      src={`/assets/img/team-logo/LIV_filled.png`}
-                      alt={coach.firstName}
-                      className="rounded-full object-cover"
-                      width={40}
-                      height={40}
-                    />
-                  :
-                    <Image
-                      src={coach.crest}
-                      alt={coach.firstName}
-                      className="rounded-full object-cover"
-                      width={40}
-                      height={40}
-                    />
+                  coach.teamName 
+                  ? <td className="px-6 py-4 flex items-center gap-4">
+                    {
+                      coach.teamName === 'Liverpool FC'
+                      ? 
+                        <Image
+                          src={`/assets/img/team-logo/LIV_filled.png`}
+                          alt={coach.firstName}
+                          className="rounded-full object-cover"
+                          width={40}
+                          height={40}
+                        />
+                      :
+                        <Image
+                          src={coach.crest}
+                          alt={coach.firstName}
+                          className="rounded-full object-cover"
+                          width={40}
+                          height={40}
+                        />
+                    }
+                    <span className="text-gray-900">{coach.teamName}</span> 
+                  </td>
+                  : <td className="px-6 py-4"><span className="h-full text-gray-900">none</span></td>
                 }
-                <span className="text-gray-900">{coach.teamName}</span>
-              </td>
               {
                 parsedUserInfo && parsedUserInfo.role === "admin" && 
                 <td className="px-6 py-4 text-gray-700">

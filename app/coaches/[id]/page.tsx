@@ -17,7 +17,7 @@ export default async function Page({params}:CoachDetailProps) {
             <PlayerBanner 
             firstName={coach.firstName}
             lastName={coach.lastName}
-            color={coach.team.teamColor}
+            color={coach.team?.teamColor}
             profileUrl={coach?.profileUrl}
             />    
             <PlayerDetail
@@ -25,8 +25,8 @@ export default async function Page({params}:CoachDetailProps) {
                 name={`${coach.firstName} ${coach.lastName}`}
                 nationality={coach.nationality}
                 dateOfBirth={coach.dateOfBirth}
-                teamName={coach.team.name}
-                teamLogoUrl={coach.team.crest}
+                teamName={coach.team?.name}
+                teamLogoUrl={coach.team?.crest}
                 joinedTeam={coach.joinedTeam}
                 isCoach={true}
             />

@@ -48,15 +48,12 @@ export default function PlayerForm({
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
         if(isCreate){
-
+            // Create
             if(isCoach){
-                // TODO
-                console.log('isCoach')
-            }else{
-                console.log('isPlayer')
-                // Create
-                const res = await playerService.createPlayer(formDataState);
-                console.log(res);
+                const res = await coachService.createCoach(formDataState);                
+                res && router.push(`/coaches/${res._id}`)
+            }else{                
+                const res = await playerService.createPlayer(formDataState);                
                 res && router.push(`/players/${res._id}`)
             }
 
