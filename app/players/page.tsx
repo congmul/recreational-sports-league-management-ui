@@ -2,7 +2,7 @@ import Banner from '@/app/ui/banner/banner';
 import PlayerTable from '@/app/ui/table/playerTable';
 import { TableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
-import AddButtonLink from '../ui/add-button-link/AddButtonLink';
+import LinkCircleButton from "@/app/ui/link-circle-button/LinkCircleButton";
 
 export default async function Page() {
     return (<>
@@ -13,7 +13,7 @@ export default async function Page() {
             <PlayerTable />
           </Suspense>
         </div>
-        <AddButtonLink title='Add new player' url="/players/create" />
+        <LinkCircleButton title='Add new player' url="/players/create" />
       </div>
     </>
     );
