@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import MultiSelectDropdown from "../multi-select-dropdown/MultiSelectDropdown";
 import { azureStorageService } from "@/app/lib/api-services/azure-storage.service";
+import Spinner from "../spinner/spinner";
 
 interface TeamFormProps {
     isCreate?: boolean
@@ -18,6 +19,7 @@ interface TeamFormProps {
   }
 
 export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
+    const [isLoading, setIsLoading] = useState(false);
     const [ formDataState, setFormDataState ] = useState<TeamFormType>(() => {
         if(isCreate || !editFormDataState){
             return ({  
@@ -87,24 +89,31 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
 
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
-        e.preventDefault();
-        let crestImgUrl;
-        if(imgFormData){
-            const result = await azureStorageService.uploadImage(imgFormData);
-            if(result) crestImgUrl = result.url
-        }
-
-        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || "", crest: crestImgUrl || "" }
-        if(isCreate){
-            const res = await teamService.createTeam(teamBody);
-            if(res){
-                router.push(`/teams/${res._id}`)
+        try{
+            e.preventDefault();
+            setIsLoading(true);
+            let crestImgUrl;
+            if(imgFormData){
+                const result = await azureStorageService.uploadImage(imgFormData);
+                if(result) crestImgUrl = result.url
             }
-        }else{
-            const res = await teamService.updateTeam(teamBody);
-            if(res){
-                router.push(`/teams/${res._id}`)
+    
+            const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || "", crest: crestImgUrl || "" }
+            if(isCreate){
+                const res = await teamService.createTeam(teamBody);
+                if(res){
+                    router.push(`/teams/${res._id}`)
+                }
+            }else{
+                const res = await teamService.updateTeam(teamBody);
+                if(res){
+                    router.push(`/teams/${res._id}`)
+                }
             }
+        }catch(error){
+            console.log(error);
+        }finally{
+            setIsLoading(false);
         }
     }
     return(<>
@@ -265,10 +274,13 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                 </div>
             </div>
             <button
-                className="w-full bg-indigo-900 text-white py-2 rounded-md hover:bg-indigo-700"
+                className="w-full bg-indigo-900 text-white py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center"
                 onClick={formSubmitHandle}
             >
                 Submit
+              {
+                isLoading &&  <span className="ml-3"><Spinner size={"h-4"} color="white" /></span>
+              }
             </button>
         </form>
     </div>    

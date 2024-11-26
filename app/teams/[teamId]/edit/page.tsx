@@ -37,6 +37,5 @@ export default function Page(){
                 <TeamForm editFormDataState={formDataState} />
             </>
         }
-        Team Editing
     </>)
 }
