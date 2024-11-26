@@ -4,7 +4,7 @@ import { getCookie, setCookie } from './helper';
 // Create an Axios instance
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_CORE_SERVICE_URL, // Base URL for all requests
-  timeout: 10000, // Set a timeout (10 seconds)
+  timeout: 25000, // Set a timeout (25 seconds)
 });
 
 // Request interceptor

@@ -7,6 +7,7 @@ import { capitalizeFirstLetter } from "@/app/lib/utils";
 import { coachService, playerService, teamService } from "@/app/lib/api-services";
 import { PlayerFormType, Team } from "@/app/lib/models";
 import { useRouter } from 'next/navigation';
+import Spinner from "../spinner/spinner";
 
 interface PlayerFormProps {
     isCreate?: boolean
@@ -28,6 +29,7 @@ export default function PlayerForm({
     const [teamList, setTeamList] = useState<string[]>([]);
     const [ teams, setTeams ] = useState<Team[]>();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         teamService.getAllTeams()
         .then((teamRes) => {
@@ -50,41 +52,48 @@ export default function PlayerForm({
       };
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
-        e.preventDefault();
-        if(isCreate){
-            // Create
-            if(isCoach){
-                let coachBody
-                if(formDataState.team){
-                    coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
-                 }else{
-                    coachBody = {...formDataState}
+        try{
+            e.preventDefault();
+            setIsLoading(true);
+            if(isCreate){
+                // Create
+                if(isCoach){
+                    let coachBody
+                    if(formDataState.team){
+                        coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
+                     }else{
+                        coachBody = {...formDataState}
+                    }
+                    const res = await coachService.createCoach(coachBody);
+                    if(res){
+                        router.push(`/coaches/${res._id}`)
+                    }
+                }else{                
+                    const res = await playerService.createPlayer(formDataState);                
+                    if(res){
+                        router.push(`/players/${res._id}`)
+                    }
                 }
-                const res = await coachService.createCoach(coachBody);
-                if(res){
-                    router.push(`/coaches/${res._id}`)
-                }
-            }else{                
-                const res = await playerService.createPlayer(formDataState);                
-                if(res){
-                    router.push(`/players/${res._id}`)
-                }
-            }
-
-        }else{
-            if(isCoach){                
-                let coachBody
-                if(formDataState.team){
-                    coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
-                 }else{
-                    coachBody = {...formDataState}
-                }
-                await coachService.updateUpdateById(coachBody);
-                router.push(`/coaches/${formDataState.id}`)
+    
             }else{
-                await playerService.updatePlayerById(formDataState);
-                router.push(`/players/${formDataState.id}`)
+                if(isCoach){                
+                    let coachBody
+                    if(formDataState.team){
+                        coachBody = {...formDataState, teamName: selectedTeam?.name, crest: selectedTeam?.crest}
+                     }else{
+                        coachBody = {...formDataState}
+                    }
+                    await coachService.updateUpdateById(coachBody);
+                    router.push(`/coaches/${formDataState.id}`)
+                }else{
+                    await playerService.updatePlayerById(formDataState);
+                    router.push(`/players/${formDataState.id}`)
+                }
             }
+        }catch(err){
+            console.log(err);
+        }finally{
+            setIsLoading(false);
         }
 
     }
@@ -261,10 +270,13 @@ export default function PlayerForm({
                 }
 
             <button
-                className="w-full bg-indigo-900 text-white py-2 rounded-md hover:bg-indigo-700"
+                className="w-full bg-indigo-900 text-white py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center"
                 onClick={formSubmitHandle}
             >
                 Submit
+              {
+                isLoading &&  <span className="ml-3"><Spinner size={"h-4"} color="white" /></span>
+              }
             </button>
             </form>
         </div>)

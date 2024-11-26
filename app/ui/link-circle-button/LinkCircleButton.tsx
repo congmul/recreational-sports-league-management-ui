@@ -15,7 +15,7 @@ const LinkCircleButton = async ({title, url, rightLocation = 'right-[50px]', isE
   const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
   if(parsedUserInfo && parsedUserInfo.role === 'admin'){
     return (
-      <div className={`fixed bottom-[50px] ${rightLocation}`}>
+      <div className={`fixed bottom-[50px] ${rightLocation} z-50`}>
         <Link className="relative group" href={url}>
           {/* Button */}
           <button
@@ -28,11 +28,11 @@ const LinkCircleButton = async ({title, url, rightLocation = 'right-[50px]', isE
                 <div
                   className={"w-6 text-white"}
                 >
-                  <PencilSquareIcon className="w-42" />
+                  <PencilSquareIcon className="w-6" />
                 </div>
               } 
             </span>
-            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block">
+            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block m-w-[125px] truncate">
               {title}
             </span>
           </button>
