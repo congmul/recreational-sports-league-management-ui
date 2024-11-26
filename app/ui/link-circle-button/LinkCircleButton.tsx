@@ -32,7 +32,7 @@ const LinkCircleButton = async ({title, url, rightLocation = 'right-[50px]', isE
                 </div>
               } 
             </span>
-            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block">
+            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block w-[125px] truncate">
               {title}
             </span>
           </button>

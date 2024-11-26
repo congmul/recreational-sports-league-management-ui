@@ -32,7 +32,7 @@ const RemoveCircleButton = ({title, id, name}:RemoveCircleButtonType) => {
             onClick={() => openModal()}
           >
             <span className="text-xl font-bold group-hover:mr-2 w-6"><TrashIcon /></span>
-            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block">
+            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block w-[125px] truncate">
               {title}
             </span>
           </button>
