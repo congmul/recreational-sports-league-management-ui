@@ -76,7 +76,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
 
-        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || "", players: selectedPlayer}
+        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || ""}
         if(isCreate){            
             const res = await teamService.createTeam(teamBody);
             if(res){
@@ -184,7 +184,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                     </label>
                     <MultiSelectDropdown 
                         options={multiSelectionOptions || []} 
-                        onSelect={(selections) => { setSelectedPlayer(selections.map(selection => (selection.id)))}}
+                        onSelect={(selections) => { setFormDataState({...formDataState, players: selections.map(selection => (selection.id))})}}
                     />
                 </div>
             </div>
