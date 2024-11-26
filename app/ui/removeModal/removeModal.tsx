@@ -57,11 +57,14 @@ const RemoveModal = ({id, name, category, isPlayerDetail}: {id: string, name:str
                   }
                   if(isPlayerDetail){
                     router.push(`/${category}`)
-                  } 
+                  }else{
+                    router.refresh()
+                  }
                 }catch(error){
                   console.log(error);
                 }finally{
                   setIsLoading(false);
+                  closeModal();
                 }
               }}>Confirm 
               {
