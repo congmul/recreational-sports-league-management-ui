@@ -13,7 +13,12 @@ axiosInstance.interceptors.request.use(
     // Add authorization token
     if(config.method !== "get"){
         const accessToken = getCookie('accessToken');
-        // TODO: Throw Error if a user is not admin.
+        // Check if the user has admin role. If not, fail earlier.
+        const userInfo = getCookie("userInfo");
+        const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
+        if(!(parsedUserInfo && parsedUserInfo.role === "admin")){
+          throw new Error("Request failed with status code 401", { cause: { status: 401 } })
+        }
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
