@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './helper';
+import { getCookie, setCookie } from './helper';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
@@ -9,19 +9,27 @@ const axiosInstance = axios.create({
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     // Add authorization token
     if(config.method !== "get"){
-        const accessToken = getCookie('accessToken');
-        // Check if the user has admin role. If not, fail earlier.
-        const userInfo = getCookie("userInfo");
-        const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
-        if(!(parsedUserInfo && parsedUserInfo.role === "admin")){
-          throw new Error("Request failed with status code 401", { cause: { status: 401 } })
-        }
-        if (accessToken) {
-          config.headers.Authorization = `Bearer ${accessToken}`;
-        }
+      if(config.url?.includes('auth') || config.url?.includes('auth')){
+        return config;
+      }
+
+      const accessToken = getCookie('accessToken');
+      if(!accessToken) {
+        throw new Error("Request failed with status code 401", { cause: { status: 401 } })
+      }
+
+      // Check if the user has admin role. If not, fail earlier.
+      const userInfo = getCookie("userInfo");
+      const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined;
+      if(!(parsedUserInfo && parsedUserInfo.role === "admin")){
+        throw new Error("Request failed with status code 401", { cause: { status: 401 } })
+      }
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
     return config;
   },
@@ -50,9 +58,11 @@ axiosInstance.interceptors.response.use(
 
     // Optional: Retry logic or redirect for specific status codes
     if (error.response?.status === 401) {
-      // For example, log out user on 401 Unauthorized
-    //   localStorage.removeItem('authToken');
-    //   window.location.href = '/login'; // Redirect to login page
+      if(error.response?.data.message === "Token is expired." || error.response?.data.message === "There is no valid Token"){
+        setCookie('userInfo', "", 0);
+        setCookie('accessToken', "", 0);
+        window.location.href = '/';
+      }
     }
 
     return Promise.reject(error);
