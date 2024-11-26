@@ -3,12 +3,13 @@
 import { Coach, TeamFormType } from "@/app/lib/models";
 import { useEffect, useState } from "react";
 import ColorPicker from "../colorPicker/ColorPicker";
-import { coachService, teamService } from "@/app/lib/api-services";
+import { coachService, playerService, teamService } from "@/app/lib/api-services";
 import DropdownWithJump from "../dropdown/Dropdown";
 import { useRouter } from 'next/navigation';
 import { fileToDataUrl } from "@/app/lib/utils";
 import Image from 'next/image';
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
+import MultiSelectDropdown from "../multi-select-dropdown/MultiSelectDropdown";
 
 interface TeamFormProps {
     isCreate?: boolean
@@ -37,7 +38,9 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
     });
     const [ selectedTeamColor, setSelectedTeamColor ] = useState("#fd2626");
     const [ coaches, setCoaches ] = useState<Coach[]>();
+    const [ multiSelectionOptions, setMultiSelectionOptions ] = useState<{id:string, value:string}[]>();
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
+    const [ selectedPlayer, setSelectedPlayer ] = useState<string[]>([]);
     const [ coachesList, setCoachesList] = useState<string[]>([]);
     const [ uploadedImg, setUploadedImg ] = useState<string>("");
     const router = useRouter();
@@ -48,6 +51,11 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
             setCoaches(coachesRes);
             const coachesList = coachesRes?.map(coach => `${coach.firstName} ${coach.lastName}`);
             if(coachesList) setCoachesList([...coachesList, 'Unselect']);
+        })
+        playerService.getAllPlayers()
+        .then((players) => {
+            const options = players?.map(player => ({id: player._id, value: `${player.firstName} ${player.lastName}`}))
+            setMultiSelectionOptions(options)
         })
     }, [])
 
@@ -67,8 +75,9 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
-        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || ""}
-        if(isCreate){
+
+        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || "", players: selectedPlayer}
+        if(isCreate){            
             const res = await teamService.createTeam(teamBody);
             if(res){
                 router.push(`/teams/${res._id}`)
@@ -155,7 +164,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                 </div>
             </div>
             <div className="flex justify-between mb-4">
-                <div className="grow basis-[175px] mr-4">
+                <div className="grow mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="coach">
                         Coach
                     </label>
@@ -169,18 +178,14 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                         }}
                     />
                 </div>
-                <div className="grow mr-4">
+                <div className="grow basis-[150px]  mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="players">
                         Players
                     </label>
-                        <input
-                            type="text"
-                            id="players"
-                            name="players"
-                            // value={formDataState?.establish.split("T")[0]}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-md p-2 h-[42px]"
-                        />
+                    <MultiSelectDropdown 
+                        options={multiSelectionOptions || []} 
+                        onSelect={(selections) => { setSelectedPlayer(selections.map(selection => (selection.id)))}}
+                    />
                 </div>
             </div>
             <div className="flex justify-between mb-4">
