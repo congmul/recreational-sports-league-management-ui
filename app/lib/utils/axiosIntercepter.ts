@@ -58,7 +58,7 @@ axiosInstance.interceptors.response.use(
 
     // Optional: Retry logic or redirect for specific status codes
     if (error.response?.status === 401) {
-      if(error.response?.data.message === "Token is expired."){
+      if(error.response?.data.message === "Token is expired." || error.response?.data.message === "There is no valid Token"){
         setCookie('userInfo', "", 0);
         setCookie('accessToken', "", 0);
         window.location.href = '/';
