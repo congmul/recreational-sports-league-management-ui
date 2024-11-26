@@ -59,7 +59,7 @@ async function PlayerDetail({
               {
                 teamName 
                 ?<>
-                    <Image src={teamLogoUrl} alt="Club Logo" width={24} height={24} />
+                    <Image src={teamLogoUrl == "" ? "/assets/img/team-logo/logo-missing-img.png" : teamLogoUrl} alt="Club Logo" width={24} height={24} />
                     <span className="text-indigo-900 font-medium">{teamName}</span>
                   </>
                 : "None"
