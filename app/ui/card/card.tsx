@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = ({ logoUrl, name, tla = 'ARS', color }) => {
       {
         tla === 'LIV' 
         ? <Image className="block group-hover:hidden" src={`/assets/img/team-logo/${tla}_filled.png`} alt={tla || ''} width={72} height={72} /> 
-        : <Image src={logoUrl} alt={tla || ''} width={72} height={72} />       
+        : <Image src={logoUrl == "" ? '/assets/img/team-logo/logo-missing-img.png' : logoUrl} alt={tla || ''} width={72} height={72} />       
       }
       {
         tla === 'LIV' &&

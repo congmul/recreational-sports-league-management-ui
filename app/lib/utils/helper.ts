@@ -25,7 +25,10 @@ export function setCookie(name: string, value: string, days: number) {
 }
 
 export function getCookie(name: string) {
-    const cookieArr = document.cookie.split(';');
+  if (typeof document === 'undefined') {
+    return null; // Return null during SSR
+  }
+    const cookieArr =  document.cookie.split(';');
     for (const cookie of cookieArr) {
       const [key, value] = cookie.trim().split('=');
       if (key === name) {
@@ -67,4 +70,53 @@ export function hslToHex(h:number, s:number, l:number) {
   // Convert to HEX
   const toHex = (value: number) => value.toString(16).padStart(2, '0');
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+export function hexToHsl(hex: string) {
+  // Remove "#" if present
+  hex = hex.replace("#", "");
+
+  // Convert HEX to RGB
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+
+  // Find max, min, and delta
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const delta = max - min;
+
+  // Calculate lightness
+  let h = 0;
+  const l = (max + min) / 2;
+
+  // Calculate saturation
+  const s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+  // Calculate hue
+  if (delta !== 0) {
+    if (max === r) {
+      h = ((g - b) / delta + (g < b ? 6 : 0)) * 60;
+    } else if (max === g) {
+      h = ((b - r) / delta + 2) * 60;
+    } else if (max === b) {
+      h = ((r - g) / delta + 4) * 60;
+    }
+  }
+
+  h = Math.round(h);
+  const sPercent = Math.round(s * 100);
+  const lPercent = Math.round(l * 100);
+
+  return `hsl(${h}, ${sPercent}%, ${lPercent}%)`;
+}
+
+
+export function fileToDataUrl(file: File) {
+	return new Promise<string>((resolve, reject) => {
+		const reader = new FileReader()
+		reader.onload = () => resolve(reader.result as string)
+		reader.onerror = reject
+		reader.readAsDataURL(file)
+	})
 }

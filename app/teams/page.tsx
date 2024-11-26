@@ -2,7 +2,7 @@ import Banner from '@/app/ui/banner/banner';
 import { TeamCardsSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import TeamCards from '@/app/ui/team/teamCards';
-import AddButtonLink from '../ui/add-button-link/AddButtonLink';
+import LinkCircleButton from "@/app/ui/link-circle-button/LinkCircleButton";
 
 export default async function Page() {
   return (<>
@@ -13,7 +13,7 @@ export default async function Page() {
           <TeamCards />
         </Suspense>
       </div>
-      <AddButtonLink title='Add new team' url="/teams/create" />
+      <LinkCircleButton title='Add new team' url="/teams/create" />
     </div>
   </>);
 }

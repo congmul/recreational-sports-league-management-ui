@@ -59,7 +59,7 @@ async function PlayerDetail({
               {
                 teamName 
                 ?<>
-                    <Image src={teamLogoUrl} alt="Club Logo" width={24} height={24} />
+                    <Image src={teamLogoUrl == "" ? "/assets/img/team-logo/logo-missing-img.png" : teamLogoUrl} alt="Club Logo" width={24} height={24} />
                     <span className="text-indigo-900 font-medium">{teamName}</span>
                   </>
                 : "None"
@@ -70,7 +70,7 @@ async function PlayerDetail({
           {/* Joined Team */}
           <div className="flex items-center justify-between border-b py-3">
             <span className="text-gray-600 font-medium">Joined Team</span>
-            <span className="text-indigo-900 font-medium">{joinedTeam.split('T')[0]}</span>
+            <span className="text-indigo-900 font-medium">{joinedTeam?.split('T')[0] || 'Unkown'}</span>
           </div>
 
       {

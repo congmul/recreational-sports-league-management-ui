@@ -12,6 +12,8 @@ import CoachCard from '@/app/ui/team/coachCard';
 import { Player } from "@/app/lib/models";
 import Link from "next/link";
 import Banner from "@/app/ui/banner/banner";
+import RemoveCircleButton from "@/app/ui/remove-circle-button/RemoveCircleButton";
+import LinkCircleButton from "@/app/ui/link-circle-button/LinkCircleButton";
 
 interface TeamDetailProps {
     params: Promise<{ teamId: string }>
@@ -51,6 +53,8 @@ export default async function Page({ params }: TeamDetailProps) {
     return(<>
     {
         team && <>
+            <LinkCircleButton title={`Edit ${team.name}`} url={`/teams/${team._id}/edit`} rightLocation="right-[125px]" isEdit={true} />
+            <RemoveCircleButton id={team._id} name={team.name} title={`Remove ${team.name}`} />
             <Banner isTeamDetail={true} title={team.name} color={team.teamColor} tla={team.tla} est={team.establish} stadium={team.homeStadium} baseCity={team.baseCity} logoUrl={team.crest} />
             <TabGroup className="pl-3" style={{marginTop:"-40px"}}>
                 <TabList className="flex gap-4">

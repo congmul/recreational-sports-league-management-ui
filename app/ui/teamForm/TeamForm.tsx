@@ -3,32 +3,45 @@
 import { Coach, TeamFormType } from "@/app/lib/models";
 import { useEffect, useState } from "react";
 import ColorPicker from "../colorPicker/ColorPicker";
-import { coachService, teamService } from "@/app/lib/api-services";
+import { coachService, playerService, teamService } from "@/app/lib/api-services";
 import DropdownWithJump from "../dropdown/Dropdown";
 import { useRouter } from 'next/navigation';
+import { fileToDataUrl } from "@/app/lib/utils";
+import Image from 'next/image';
+import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
+import MultiSelectDropdown from "../multi-select-dropdown/MultiSelectDropdown";
 
 interface TeamFormProps {
     isCreate?: boolean
+    editFormDataState?: TeamFormType
   }
 
-export default function TeamForm({isCreate}: TeamFormProps){
-    const [ formDataState, setFormDataState ] = useState<TeamFormType>(() => ({  
-        _id: "",
-        name: "",
-        tla: "",
-        crest: "",
-        teamColor: "",
-        baseCity: "",
-        establish: new Date().toISOString(),
-        homeStadium: "",
-        players: [],
-        maxNumber: 25,
-        coach: "",
-    }));
+export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
+    const [ formDataState, setFormDataState ] = useState<TeamFormType>(() => {
+        if(isCreate || !editFormDataState){
+            return ({  
+                _id: "",
+                name: "",
+                tla: "",
+                crest: "",
+                teamColor: "",
+                baseCity: "",
+                establish: new Date().toISOString(),
+                homeStadium: "",
+                players: [],
+                maxNumber: 25,
+                coach: "",
+            })
+        }else{
+            return editFormDataState;
+        }
+    });
     const [ selectedTeamColor, setSelectedTeamColor ] = useState("#fd2626");
     const [ coaches, setCoaches ] = useState<Coach[]>();
+    const [ multiSelectionOptions, setMultiSelectionOptions ] = useState<{id:string, value:string}[]>();
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
     const [ coachesList, setCoachesList] = useState<string[]>([]);
+    const [ uploadedImg, setUploadedImg ] = useState<string>("");
     const router = useRouter();
 
     useEffect(() => {
@@ -37,7 +50,24 @@ export default function TeamForm({isCreate}: TeamFormProps){
             setCoaches(coachesRes);
             const coachesList = coachesRes?.map(coach => `${coach.firstName} ${coach.lastName}`);
             if(coachesList) setCoachesList([...coachesList, 'Unselect']);
+
+            if(!isCreate && coachesRes) {
+                if(editFormDataState?.coach){
+                    const coach = coachesRes.find(coach => coach._id === editFormDataState?.coach);
+                    setSelectedCoach(coach)
+                }
+            }
         })
+        playerService.getAllPlayers()
+        .then((players) => {
+            const options = players?.map(player => ({id: player._id, value: `${player.firstName} ${player.lastName}`}))
+            setMultiSelectionOptions(options)
+        })
+
+        if(!isCreate){
+            setUploadedImg(editFormDataState?.crest || "")
+            setSelectedTeamColor(editFormDataState?.teamColor || "#fd2626")
+        }
     }, [])
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -56,15 +86,18 @@ export default function TeamForm({isCreate}: TeamFormProps){
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
-        console.log({...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id});
+
         const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || ""}
-        if(isCreate){
+        if(isCreate){            
             const res = await teamService.createTeam(teamBody);
             if(res){
                 router.push(`/teams/${res._id}`)
             }
         }else{
-
+            const res = await teamService.updateTeam(teamBody);
+            if(res){
+                router.push(`/teams/${res._id}`)
+            }
         }
     }
     return(<>
@@ -73,25 +106,42 @@ export default function TeamForm({isCreate}: TeamFormProps){
             className="max-w-lg lg:max-w-xl mx-auto p-6"
         >
             <div className="flex justify-between mb-4">
-                <div className="grow mr-4">
+                <div className="grow mr-4 relative">
+                    {
+                        uploadedImg !== "" &&
+                        <div className="absolute top-[30px] right-[10px] bg-white cursor-pointer"
+                            onClick={() => {setUploadedImg("")}}
+                        >
+                            <MinusCircleIcon className="w-8 text-red-500" />
+                        </div>
+                    }
                     <label className="block text-sm font-medium mb-1" htmlFor="crest">
                         Crest
-                    </label>
-                    <input
-                        type="text"
-                        id="crest"
-                        name="crest"
-                        placeholder="Tottenham Hotspur F.C."
-                        className="w-full border border-gray-300 rounded-md p-2"
-                        onChange={handleChange}
-                        value={formDataState.crest}
-                    />
+                    </label>                    
+                        <Image className="p-4 h-[170px]" src={uploadedImg === "" ? "/assets/img/team-logo/logo-missing-img.png" : uploadedImg } width={300} height={300} alt={'Crest'} />
+                        <label htmlFor="image" className="p-4 flex items-center cursor-pointer hover:underline">
+                            <PlusCircleIcon className="w-8" />
+                            <span className="ml-3">Add Crest Image</span>
+                        </label>
+						<input
+							id="image"
+                            className="hidden"
+							type="file"
+							name="image"
+							accept="image/*"
+                            onChange={async (e) => {
+                                if(e.target.files){                                    
+                                    const imageUrl = await fileToDataUrl(e.target.files["0"] as File as File);
+                                    setUploadedImg(imageUrl);
+                                }
+                            }}
+						/>
                 </div>
                 <div className="grow mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="teamColor">
                         Team Color
                     </label>
-                    <ColorPicker setSelectedTeamColor={setSelectedTeamColor} />
+                    <ColorPicker initColor={selectedTeamColor} setSelectedTeamColor={setSelectedTeamColor} />
                 </div>
             </div>
             <div className="flex justify-between mb-4">
@@ -125,7 +175,7 @@ export default function TeamForm({isCreate}: TeamFormProps){
                 </div>
             </div>
             <div className="flex justify-between mb-4">
-                <div className="grow basis-[175px] mr-4">
+                <div className="grow mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="coach">
                         Coach
                     </label>
@@ -139,18 +189,15 @@ export default function TeamForm({isCreate}: TeamFormProps){
                         }}
                     />
                 </div>
-                <div className="grow mr-4">
+                <div className="grow basis-[150px]  mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="players">
                         Players
                     </label>
-                        <input
-                            type="text"
-                            id="players"
-                            name="players"
-                            // value={formDataState?.establish.split("T")[0]}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-md p-2 h-[42px]"
-                        />
+                    <MultiSelectDropdown 
+                        options={multiSelectionOptions || []} 
+                        initialSelections={formDataState.players}
+                        onSelect={(selections) => { setFormDataState({...formDataState, players: selections.map(selection => (selection.id))})}}
+                    />
                 </div>
             </div>
             <div className="flex justify-between mb-4">
