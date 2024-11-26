@@ -6,9 +6,11 @@ import { clsx } from 'clsx';
 import { createPortal } from 'react-dom';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { coachService, playerService } from '@/app/lib/api-services';
+import Spinner from '../spinner/spinner';
 
 const RemoveModal = ({id, name, category, isPlayerDetail}: {id: string, name:string, category: string, isPlayerDetail?: boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -45,23 +47,28 @@ const RemoveModal = ({id, name, category, isPlayerDetail}: {id: string, name:str
             </p>
             <div className="flex justify-end">
               <button className="text-gray-500 hover:text-gray-700 mr-4" onClick={() => closeModal()}>Cancel</button>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900" onClick={async () => {
+              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900 flex items-center" onClick={async () => {
                 try{
+                  setIsLoading(true);
                   if(category === 'players'){
                     await playerService.deletePlayerById(id);                  
                   }else if(category === 'coaches'){
                     await coachService.deleteCoachById(id); 
-                  }else if(category === 'team'){
-  
                   }
                   if(isPlayerDetail){
                     router.push(`/${category}`)
                   } 
                 }catch(error){
                   console.log(error);
+                }finally{
+                  setIsLoading(false);
                 }
-              }}>Confirm</button>
-            </div>
+              }}>Confirm 
+              {
+                isLoading &&  <span className="ml-3"><Spinner size={"h-4"} color="white" /></span>
+              }
+              </button>
+            </div>            
           </div>
         </div>
         , document.body
