@@ -10,6 +10,7 @@ import { fileToDataUrl } from "@/app/lib/utils";
 import Image from 'next/image';
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import MultiSelectDropdown from "../multi-select-dropdown/MultiSelectDropdown";
+import { azureStorageService } from "@/app/lib/api-services/azure-storage.service";
 
 interface TeamFormProps {
     isCreate?: boolean
@@ -42,6 +43,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
     const [ coachesList, setCoachesList] = useState<string[]>([]);
     const [ uploadedImg, setUploadedImg ] = useState<string>("");
+    const [ imgFormData, setImgFormData ] = useState<FormData>();
     const router = useRouter();
 
     useEffect(() => {
@@ -86,9 +88,14 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
+        let crestImgUrl;
+        if(imgFormData){
+            const result = await azureStorageService.uploadImage(imgFormData);
+            if(result) crestImgUrl = result.url
+        }
 
-        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || ""}
-        if(isCreate){            
+        const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || "", crest: crestImgUrl || "" }
+        if(isCreate){
             const res = await teamService.createTeam(teamBody);
             if(res){
                 router.push(`/teams/${res._id}`)
@@ -110,7 +117,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                     {
                         uploadedImg !== "" &&
                         <div className="absolute top-[30px] right-[10px] bg-white cursor-pointer"
-                            onClick={() => {setUploadedImg("")}}
+                            onClick={() => {setUploadedImg(""); setImgFormData(undefined)}}
                         >
                             <MinusCircleIcon className="w-8 text-red-500" />
                         </div>
@@ -118,7 +125,15 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                     <label className="block text-sm font-medium mb-1" htmlFor="crest">
                         Crest
                     </label>                    
-                        <Image className="p-4 h-[170px]" src={uploadedImg === "" ? "/assets/img/team-logo/logo-missing-img.png" : uploadedImg } width={300} height={300} alt={'Crest'} />
+                        <Image className="p-4 h-[170px]" 
+                            src={
+                                uploadedImg !== "" 
+                                ? uploadedImg
+                                : formDataState.crest 
+                                    ? formDataState.crest 
+                                    : "/assets/img/team-logo/logo-missing-img.png"                             
+                            } 
+                            width={300} height={300} alt={'Crest'} />
                         <label htmlFor="image" className="p-4 flex items-center cursor-pointer hover:underline">
                             <PlusCircleIcon className="w-8" />
                             <span className="ml-3">Add Crest Image</span>
@@ -130,8 +145,12 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
 							name="image"
 							accept="image/*"
                             onChange={async (e) => {
-                                if(e.target.files){                                    
-                                    const imageUrl = await fileToDataUrl(e.target.files["0"] as File as File);
+                                if(e.target.files){         
+                                    const imageFile = e.target.files["0"] as File;                           
+                                    const imageUrl = await fileToDataUrl(imageFile);
+                                    const formData = new FormData();
+                                    formData.append('file', imageFile)
+                                    setImgFormData(formData);
                                     setUploadedImg(imageUrl);
                                 }
                             }}
