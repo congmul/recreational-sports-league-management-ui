@@ -25,7 +25,10 @@ export function setCookie(name: string, value: string, days: number) {
 }
 
 export function getCookie(name: string) {
-    const cookieArr = document.cookie.split(';');
+  if (typeof document === 'undefined') {
+    return null; // Return null during SSR
+  }
+    const cookieArr =  document.cookie.split(';');
     for (const cookie of cookieArr) {
       const [key, value] = cookie.trim().split('=');
       if (key === name) {
