@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Option {
     value: string;
@@ -7,12 +7,24 @@ interface Option {
   
 interface MultiSelectDropdownProps {
     options: Option[]
+    initialSelections: string[] // playersID
     onSelect: (value: Option[]) => void;
   }
 
-const MultiSelectDropdown = ({ options, onSelect }: MultiSelectDropdownProps) => {
+const MultiSelectDropdown = ({ options, onSelect, initialSelections }: MultiSelectDropdownProps) => {
     const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        if(initialSelections.length > 0){
+            const res = options.filter(option => {
+                if(initialSelections.indexOf(option.id) != -1){
+                    return option;
+                }
+            })
+            setSelectedOptions(res);
+        }
+    }, [options])
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

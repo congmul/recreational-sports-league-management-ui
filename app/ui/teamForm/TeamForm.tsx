@@ -40,7 +40,6 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
     const [ coaches, setCoaches ] = useState<Coach[]>();
     const [ multiSelectionOptions, setMultiSelectionOptions ] = useState<{id:string, value:string}[]>();
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
-    const [ selectedPlayer, setSelectedPlayer ] = useState<string[]>([]);
     const [ coachesList, setCoachesList] = useState<string[]>([]);
     const [ uploadedImg, setUploadedImg ] = useState<string>("");
     const router = useRouter();
@@ -51,12 +50,23 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
             setCoaches(coachesRes);
             const coachesList = coachesRes?.map(coach => `${coach.firstName} ${coach.lastName}`);
             if(coachesList) setCoachesList([...coachesList, 'Unselect']);
+
+            if(!isCreate && coachesRes) {
+                if(editFormDataState?.coach){
+                    const coach = coachesRes.find(coach => coach._id === editFormDataState?.coach);
+                    setSelectedCoach(coach)
+                }
+            }
         })
         playerService.getAllPlayers()
         .then((players) => {
             const options = players?.map(player => ({id: player._id, value: `${player.firstName} ${player.lastName}`}))
             setMultiSelectionOptions(options)
         })
+
+        if(!isCreate){
+            setUploadedImg(editFormDataState?.crest || "")
+        }
     }, [])
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -184,6 +194,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                     </label>
                     <MultiSelectDropdown 
                         options={multiSelectionOptions || []} 
+                        initialSelections={formDataState.players}
                         onSelect={(selections) => { setFormDataState({...formDataState, players: selections.map(selection => (selection.id))})}}
                     />
                 </div>
