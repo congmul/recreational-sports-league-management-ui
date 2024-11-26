@@ -27,4 +27,12 @@ export const teamService = {
             console.log(err);
         }
     },
+    deleteTeam: async (id: string) => {
+        try{
+            await axiosInstance.delete(`/team/${id}`);
+            return null;
+        }catch(err){
+            console.log(err);
+        }
+    },
 }
