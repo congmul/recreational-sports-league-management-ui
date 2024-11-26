@@ -9,22 +9,29 @@ import { useRouter } from 'next/navigation';
 
 interface TeamFormProps {
     isCreate?: boolean
+    editFormDataState?: TeamFormType
   }
 
-export default function TeamForm({isCreate}: TeamFormProps){
-    const [ formDataState, setFormDataState ] = useState<TeamFormType>(() => ({  
-        _id: "",
-        name: "",
-        tla: "",
-        crest: "",
-        teamColor: "",
-        baseCity: "",
-        establish: new Date().toISOString(),
-        homeStadium: "",
-        players: [],
-        maxNumber: 25,
-        coach: "",
-    }));
+export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
+    const [ formDataState, setFormDataState ] = useState<TeamFormType>(() => {
+        if(isCreate || !editFormDataState){
+            return ({  
+                _id: "",
+                name: "",
+                tla: "",
+                crest: "",
+                teamColor: "",
+                baseCity: "",
+                establish: new Date().toISOString(),
+                homeStadium: "",
+                players: [],
+                maxNumber: 25,
+                coach: "",
+            })
+        }else{
+            return editFormDataState;
+        }
+});
     const [ selectedTeamColor, setSelectedTeamColor ] = useState("#fd2626");
     const [ coaches, setCoaches ] = useState<Coach[]>();
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
@@ -56,7 +63,6 @@ export default function TeamForm({isCreate}: TeamFormProps){
 
     async function formSubmitHandle(e: React.FormEvent<HTMLButtonElement>){
         e.preventDefault();
-        console.log({...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id});
         const teamBody = {...formDataState, teamColor: selectedTeamColor, coach: selectedCoach?._id || ""}
         if(isCreate){
             const res = await teamService.createTeam(teamBody);
@@ -64,7 +70,10 @@ export default function TeamForm({isCreate}: TeamFormProps){
                 router.push(`/teams/${res._id}`)
             }
         }else{
-
+            const res = await teamService.updateTeam(teamBody);
+            if(res){
+                router.push(`/teams/${res._id}`)
+            }
         }
     }
     return(<>
