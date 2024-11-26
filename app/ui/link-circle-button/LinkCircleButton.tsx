@@ -15,7 +15,7 @@ const LinkCircleButton = async ({title, url, rightLocation = 'right-[50px]', isE
   const parsedUserInfo = userInfo ? JSON.parse(userInfo) : undefined
   if(parsedUserInfo && parsedUserInfo.role === 'admin'){
     return (
-      <div className={`fixed bottom-[50px] ${rightLocation}`}>
+      <div className={`fixed bottom-[50px] ${rightLocation} z-50`}>
         <Link className="relative group" href={url}>
           {/* Button */}
           <button

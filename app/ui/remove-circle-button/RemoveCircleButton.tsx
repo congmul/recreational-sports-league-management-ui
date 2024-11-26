@@ -24,7 +24,7 @@ const RemoveCircleButton = ({title, id, name}:RemoveCircleButtonType) => {
 
   if(parsedUserInfo && parsedUserInfo.role === 'admin'){
     return (<>
-      <div className="fixed bottom-[50px] right-[50px]">
+      <div className="fixed bottom-[50px] right-[50px] z-50">
         <div className="relative group">
           {/* Button */}
           <button
