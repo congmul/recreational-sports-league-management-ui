@@ -1,11 +1,17 @@
-import { hslToHex } from "@/app/lib/utils";
-import React, { useState } from "react";
+import { hslToHex, hexToHsl } from "@/app/lib/utils";
+import React, { useEffect, useState } from "react";
 
-function ColorRange({setSelectedTeamColor}: {setSelectedTeamColor: React.Dispatch<React.SetStateAction<string>>}){
+function ColorRange({initColor, setSelectedTeamColor}: {initColor: string, setSelectedTeamColor: React.Dispatch<React.SetStateAction<string>>}){
   const [hue, setHue] = useState(0);
   const [saturation, setSaturation] = useState(100); // Saturation percentage
   const [brightness, setBrightness] = useState(100); // Brightness percentage
   const [selectedColor, setSelectedColor] = useState("hsl(0, 100%, 50%)");
+
+  useEffect(() => {
+    if(initColor){
+      setSelectedColor(hexToHsl(initColor))
+    }
+  }, [initColor])
 
   const handleHueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHue(parseInt(e.target.value, 10));
@@ -75,7 +81,7 @@ function ColorRange({setSelectedTeamColor}: {setSelectedTeamColor: React.Dispatc
           className="mt-4 w-20 h-20 rounded-md shadow-md"
           style={{ backgroundColor: selectedColor }}
         ></div>
-        <p className="mt-2 ml-4 text-sm">Selected Color: {hslToHex(hue, saturation, brightness).toUpperCase()}</p>
+        <p className="mt-2 ml-4 text-sm">Selected Color: {initColor || hslToHex(hue, saturation, brightness).toUpperCase()}</p>
       </div>
     </div>
   );

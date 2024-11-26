@@ -66,6 +66,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
 
         if(!isCreate){
             setUploadedImg(editFormDataState?.crest || "")
+            setSelectedTeamColor(editFormDataState?.teamColor || "#fd2626")
         }
     }, [])
 
@@ -140,7 +141,7 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
                     <label className="block text-sm font-medium mb-1" htmlFor="teamColor">
                         Team Color
                     </label>
-                    <ColorPicker setSelectedTeamColor={setSelectedTeamColor} />
+                    <ColorPicker initColor={selectedTeamColor} setSelectedTeamColor={setSelectedTeamColor} />
                 </div>
             </div>
             <div className="flex justify-between mb-4">
