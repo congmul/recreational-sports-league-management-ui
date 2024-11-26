@@ -16,3 +16,17 @@ export type Team = {
     updatedAt: string,
     coach: Coach,
 }
+
+export type TeamFormType = {
+    _id: string,
+    name: string,
+    tla: string,
+    crest: string,
+    teamColor: string,
+    baseCity: string,
+    establish: string,
+    homeStadium: string,
+    players: string[],
+    maxNumber: number,
+    coach: string,
+}

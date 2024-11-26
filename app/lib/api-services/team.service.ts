@@ -1,4 +1,4 @@
-import { Team } from '@/app/lib/models'
+import { Team, TeamFormType } from '@/app/lib/models'
 import axiosInstance from '@/app/lib/utils/axiosIntercepter';
 
 export const teamService = {
@@ -17,5 +17,14 @@ export const teamService = {
         }catch(err){
             console.log(err);
         }
-    }
+    },
+    createTeam: async (body: TeamFormType):Promise<Team | undefined> => {
+        try{
+            const { _id, ...rest} = body;
+            const { data } = await axiosInstance.post(`/team`, rest);
+            return {_id, ...data};            
+        }catch(err){
+            console.log(err);
+        }
+    },
 }
