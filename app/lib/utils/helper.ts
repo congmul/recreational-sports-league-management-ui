@@ -71,3 +71,12 @@ export function hslToHex(h:number, s:number, l:number) {
   const toHex = (value: number) => value.toString(16).padStart(2, '0');
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
+
+export function fileToDataUrl(file: File) {
+	return new Promise<string>((resolve, reject) => {
+		const reader = new FileReader()
+		reader.onload = () => resolve(reader.result as string)
+		reader.onerror = reject
+		reader.readAsDataURL(file)
+	})
+}

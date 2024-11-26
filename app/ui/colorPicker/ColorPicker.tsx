@@ -70,11 +70,13 @@ function ColorRange({setSelectedTeamColor}: {setSelectedTeamColor: React.Dispatc
       />
 
       {/* Display Selected Hue */}
-      <div
-        className="mt-4 w-20 h-20 rounded-md shadow-md"
-        style={{ backgroundColor: selectedColor }}
-      ></div>
-      <p className="mt-2 text-sm">Selected Color: {hslToHex(hue, saturation, brightness).toUpperCase()}</p>
+      <div className="flex items-end">
+        <div
+          className="mt-4 w-20 h-20 rounded-md shadow-md"
+          style={{ backgroundColor: selectedColor }}
+        ></div>
+        <p className="mt-2 ml-4 text-sm">Selected Color: {hslToHex(hue, saturation, brightness).toUpperCase()}</p>
+      </div>
     </div>
   );
 };

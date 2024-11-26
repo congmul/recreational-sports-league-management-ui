@@ -6,6 +6,9 @@ import ColorPicker from "../colorPicker/ColorPicker";
 import { coachService, teamService } from "@/app/lib/api-services";
 import DropdownWithJump from "../dropdown/Dropdown";
 import { useRouter } from 'next/navigation';
+import { fileToDataUrl } from "@/app/lib/utils";
+import Image from 'next/image';
+import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 
 interface TeamFormProps {
     isCreate?: boolean
@@ -31,11 +34,12 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
         }else{
             return editFormDataState;
         }
-});
+    });
     const [ selectedTeamColor, setSelectedTeamColor ] = useState("#fd2626");
     const [ coaches, setCoaches ] = useState<Coach[]>();
     const [ selectedCoach, setSelectedCoach ] = useState<Coach>();
     const [ coachesList, setCoachesList] = useState<string[]>([]);
+    const [ uploadedImg, setUploadedImg ] = useState<string>("");
     const router = useRouter();
 
     useEffect(() => {
@@ -82,19 +86,36 @@ export default function TeamForm({isCreate, editFormDataState}: TeamFormProps){
             className="max-w-lg lg:max-w-xl mx-auto p-6"
         >
             <div className="flex justify-between mb-4">
-                <div className="grow mr-4">
+                <div className="grow mr-4 relative">
+                    {
+                        uploadedImg !== "" &&
+                        <div className="absolute top-[30px] right-[10px] bg-white cursor-pointer"
+                            onClick={() => {setUploadedImg("")}}
+                        >
+                            <MinusCircleIcon className="w-8 text-red-500" />
+                        </div>
+                    }
                     <label className="block text-sm font-medium mb-1" htmlFor="crest">
                         Crest
-                    </label>
-                    <input
-                        type="text"
-                        id="crest"
-                        name="crest"
-                        placeholder="Tottenham Hotspur F.C."
-                        className="w-full border border-gray-300 rounded-md p-2"
-                        onChange={handleChange}
-                        value={formDataState.crest}
-                    />
+                    </label>                    
+                        <Image className="p-4 h-[170px]" src={uploadedImg === "" ? "/assets/img/team-logo/logo-missing-img.png" : uploadedImg } width={300} height={300} alt={'Crest'} />
+                        <label htmlFor="image" className="p-4 flex items-center cursor-pointer hover:underline">
+                            <PlusCircleIcon className="w-8" />
+                            <span className="ml-3">Add Crest Image</span>
+                        </label>
+						<input
+							id="image"
+                            className="hidden"
+							type="file"
+							name="image"
+							accept="image/*"
+                            onChange={async (e) => {
+                                if(e.target.files){                                    
+                                    const imageUrl = await fileToDataUrl(e.target.files["0"] as File as File);
+                                    setUploadedImg(imageUrl);
+                                }
+                            }}
+						/>
                 </div>
                 <div className="grow mr-4">
                     <label className="block text-sm font-medium mb-1" htmlFor="teamColor">

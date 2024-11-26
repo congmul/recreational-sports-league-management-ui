@@ -1,2 +1,2 @@
-import { darkenColor, capitalizeFirstLetter, setCookie, getCookie, hslToHex } from './helper';
-export { darkenColor, capitalizeFirstLetter, setCookie, getCookie, hslToHex }; 
+import { darkenColor, capitalizeFirstLetter, setCookie, getCookie, hslToHex, fileToDataUrl } from './helper';
+export { darkenColor, capitalizeFirstLetter, setCookie, getCookie, hslToHex, fileToDataUrl }; 
