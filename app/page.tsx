@@ -1,4 +1,5 @@
 import Banner from '@/app/ui/banner/banner';
+import Image from 'next/image';
 
 export default function Home() {
   return (<>
@@ -45,14 +46,14 @@ export default function Home() {
 
           {/* Center - Headline News */}
           <main className="col-span-6 rounded-lg border-indigo-800 border">
-            <h2 className="text-xl font-bold mb-4 p-4 bg-indigo-800 text-white">The stats that show Premier League is as open as it's EVER been</h2>
+            <h2 className="text-xl font-bold mb-4 p-4 bg-indigo-800 text-white">The stats that show Premier League is as open as it is EVER been</h2>
             <p className="p-4">
               We highlight how closely clubs are clustered in the table, with Man City now nearer to West Ham than
               Liverpool.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-4 p-4">
-              <img src="/headline1.jpg" alt="Headline 1" className="rounded-lg" />
-              <img src="/headline2.jpg" alt="Headline 2" className="rounded-lg" />
+              <Image src="/headline1.jpg" alt="Headline 1" className="rounded-lg" width={100} height={100} />
+              <Image src="/headline2.jpg" alt="Headline 2" className="rounded-lg" width={100} height={100} />
             </div>
           </main>
 
@@ -61,20 +62,22 @@ export default function Home() {
             <h2 className="text-xl font-bold mb-4 p-4 bg-indigo-800 text-white">Latest Videos</h2>
             <div className="space-y-4 p-4">
               <div className="flex items-center">
-                <img
+                <Image
                   src="/video-thumbnail1.jpg"
                   alt="Video Thumbnail"
                   className="w-16 h-16 rounded-lg mr-4"
+                  width={100} height={100}
                 />
                 <p className="text-sm">
                   Masterclass: Palmer and Zola meet for a free-kick challenge
                 </p>
               </div>
               <div className="flex items-center">
-                <img
+                <Image
                   src="/video-thumbnail2.jpg"
                   alt="Video Thumbnail"
                   className="w-16 h-16 rounded-lg mr-4"
+                  width={100} height={100}
                 />
                 <p className="text-sm">The best goals of the week!</p>
               </div>
