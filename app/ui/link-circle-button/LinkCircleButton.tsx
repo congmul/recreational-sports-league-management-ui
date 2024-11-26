@@ -28,11 +28,11 @@ const LinkCircleButton = async ({title, url, rightLocation = 'right-[50px]', isE
                 <div
                   className={"w-6 text-white"}
                 >
-                  <PencilSquareIcon className="w-42" />
+                  <PencilSquareIcon className="w-6" />
                 </div>
               } 
             </span>
-            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block w-[125px] truncate">
+            <span className="hidden opacity-0 whitespace-nowrap text-sm transition-opacity duration-300 group-hover:opacity-100 group-hover:block m-w-[125px] truncate">
               {title}
             </span>
           </button>
