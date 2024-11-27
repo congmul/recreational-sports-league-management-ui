@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { setCookie } from '@/app/lib/utils';
 import clsx from 'clsx';
 import { createPortal } from 'react-dom';
+import Spinner from "../spinner/spinner";
 
 const LoginModal = ({isMobile}: {isMobile?:boolean}) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -31,6 +33,7 @@ const LoginModal = ({isMobile}: {isMobile?:boolean}) => {
               <h2 className="text-lg font-bold mb-4">Sign In</h2>
               <p className="mb-4">Sign in to your account.</p>
               <form action={async (formData) => {
+                  setIsLoading(true);
                   const email = formData.get('email') as string;
                   const password = formData.get('password') as string;
                   const res = await userService.login({email, password});
@@ -38,8 +41,11 @@ const LoginModal = ({isMobile}: {isMobile?:boolean}) => {
                   if(!res) return;
                   setCookie('accessToken', res.access_token, 1);
                   setCookie('userInfo',  JSON.stringify(res.userInfo), 1);
-                  closeModal();
-                  router.refresh();
+                  setTimeout(() => {
+                    setIsLoading(false);
+                    closeModal();
+                    router.refresh();
+                  }, 500)
               }}>
                 <div className="mb-4">
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -73,9 +79,12 @@ const LoginModal = ({isMobile}: {isMobile?:boolean}) => {
                   </button>
                   <button
                     type="submit"
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900"
+                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-900 flex items-center"
                   >
                     Sign in
+                  {
+                    isLoading &&  <span className="ml-3"><Spinner size={"h-4"} color="white" /></span>
+                  }
                   </button>
                 </div>
               </form>
